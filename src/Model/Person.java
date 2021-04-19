@@ -1,27 +1,60 @@
 package Model;
 
+import java.awt.Color;
+
 public class Person {
-    private String Person_ID;
-    private String Person_Name;
+    private String personID;
+    private String personName;
+    private Color color;
+    private int x;
+    private int y;
+    private Thread tMovement;
+    
 
-    public Person(String person_ID, String person_Name) {
-        Person_ID = person_ID;
-        Person_Name = person_Name;
+    public Person(String personID, String personName, Color color) {
+        this.personID = personID;
+        this.personName = personName;
+        this.color = color;
+        x=450;
+        y=600;
+        tMovement = new Thread(new ThreadMovement(this));
+        tMovement.start();
     }
 
-    public String getPerson_ID() {
-        return Person_ID;
+    public String getPersonID() {
+        return personID;
     }
 
-    public void setPerson_ID(String person_ID) {
-        Person_ID = person_ID;
+    public void setPersonID(String personID) {
+        this.personID = personID;
     }
 
-    public String getPerson_Name() {
-        return Person_Name;
+    public String getPersonName() {
+        return personID;
     }
 
-    public void setPerson_Name(String person_Name) {
-        Person_Name = person_Name;
+    public void setPersonName(String personName) {
+        this.personName = personName;
     }
+
+	public Color getColor() {
+		return color;
+	}
+
+	public int getX() {
+		return x;
+	}
+	
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+	
 }
