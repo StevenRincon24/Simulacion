@@ -4,12 +4,14 @@ public class Proceeding {
     private String Proceeding_ID;
     private String Proceeding_Name;
     private String Proceeding_Description;
+    private String Proceeding_Status;
     private Module module;
 
-    public Proceeding(String proceeding_ID, String proceeding_Name, String proceeding_Description, Module module) {
+    public Proceeding(String proceeding_ID, String proceeding_Name, String proceeding_Description, String proceeding_Status, Module module) {
         Proceeding_ID = proceeding_ID;
         Proceeding_Name = proceeding_Name;
         Proceeding_Description = proceeding_Description;
+        Proceeding_Status = proceeding_Status;
         this.module = module;
     }
 
@@ -35,6 +37,14 @@ public class Proceeding {
 
     public void setProceeding_Description(String proceeding_Description) {
         Proceeding_Description = proceeding_Description;
+    }
+
+    public String getProceeding_Status() {
+        return Proceeding_Status;
+    }
+
+    public void setProceeding_Status(String proceeding_Status) {
+        Proceeding_Status = proceeding_Status;
     }
 
     public Module getModule() {

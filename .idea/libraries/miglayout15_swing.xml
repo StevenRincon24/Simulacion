@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="miglayout15-swing">
+    <CLASSES>
+      <root url="jar://E:/Universidad/4° Semestre/Programacion/ProyectoSimulacion/ViewSimulation/miglayout15-swing.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://E:/Universidad/4° Semestre/Programacion/ProyectoSimulacion/ViewSimulation/miglayout-src.zip!/" />
+    </SOURCES>
+  </library>
+</component>
