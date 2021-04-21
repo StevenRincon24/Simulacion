@@ -32,28 +32,15 @@ public class PanelPerson extends JPanel{
 		auxGraph.setColor(Color.DARK_GRAY);
 		auxGraph.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
-		//modulos
-		
-		auxGraph.setColor(new Color(0, 175, 70));
-		auxGraph.drawRect(20, 20, 125, 60);
-		auxGraph.drawString("Prestamos", 50, 55);
-		auxGraph.setColor(new Color(59, 131, 189));
-		auxGraph.drawRect(510, 100, 165, 60);
-		auxGraph.drawString("Retiros y Consignaciones", 525, 140);
-		auxGraph.setColor(Color.ORANGE);
-		auxGraph.drawRect(20, 325, 120, 60);
-		auxGraph.drawString("Asesoria", 60, 360);
-		auxGraph.setColor(Color.YELLOW);
-		auxGraph.drawRect(270, 335, 90, 50);
-		auxGraph.drawString("Ticked", 295, 365);
-		
 		//decoracion
-		auxGraph.setColor(Color.MAGENTA);
-		auxGraph.drawRect(510, 20, 165, 80);
+		auxGraph.setColor(new Color(59, 131, 189));
+		auxGraph.drawRect(510, 20, 165, 76);
 		auxGraph.drawString("Bobeda", 560, 70);
 		auxGraph.setColor(new Color(194, 155, 97));
 		auxGraph.drawLine(230, 470, 230, 450);
 		auxGraph.drawLine(400, 470, 400, 450);
+		auxGraph.drawLine(0, 470, 230, 470);
+		auxGraph.drawLine(400, 470, 750, 470);
 		auxGraph.setColor(Color.LIGHT_GRAY);
 		auxGraph.drawLine(510, 200, 510, 360);
 		auxGraph.drawLine(550, 200, 550, 320);
@@ -79,6 +66,20 @@ public class PanelPerson extends JPanel{
 		auxGraph.drawLine(232, 260, 306, 260);
 		auxGraph.drawLine(232, 300, 306, 300);
 		auxGraph.drawLine(270, 180, 270, 300);
+		
+		//modulos
+		auxGraph.setColor(new Color(179,204,87));
+		auxGraph.drawRect(20, 20, 125, 60);
+		auxGraph.drawString("Prestamos", 50, 55);
+		auxGraph.setColor(new Color(217, 108, 137));
+		auxGraph.drawRect(510, 100, 165, 60);
+		auxGraph.drawString("Retiros y Consignaciones", 525, 140);
+		auxGraph.setColor(new Color(255, 190, 64));
+		auxGraph.drawRect(20, 325, 120, 60);
+		auxGraph.drawString("Asesoria", 60, 360);
+		auxGraph.setColor(new Color(240, 240, 129));
+		auxGraph.drawRect(270, 335, 90, 50);
+		auxGraph.drawString("Ticked", 295, 365);
 		
 		if (personList.size()>0) {
 			for (int i = 0; i < personList.size(); i++) {

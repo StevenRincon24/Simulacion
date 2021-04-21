@@ -17,7 +17,7 @@ public class Controller {
 	}
 	
 	public void setPersistencePerson() {
-		persistence.uploadPersons(management.getPersonList());
+		persistence.uploadPersons(management.getPersonList(), management.getPasserbyList());
 	}
 	
 	public ArrayList<PersonView> getPersistenceView(){

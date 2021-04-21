@@ -2,13 +2,13 @@ package View;
 
 import Controller.Controller;
 
-public class ThreadRepaintPerson implements Runnable{
+public class RunnableRepaintPerson implements Runnable{
 	
 	private Controller controller;
-	private PanelPerson ppPanelPerson;
+	private PanelPerson panelPerson;
 	
-	public ThreadRepaintPerson(PanelPerson ppPanelPerson) {
-		this.ppPanelPerson = ppPanelPerson;
+	public RunnableRepaintPerson(PanelPerson panelPerson) {
+		this.panelPerson = panelPerson;
 	}
 	
 	@Override
@@ -16,8 +16,8 @@ public class ThreadRepaintPerson implements Runnable{
 		try {
 			while (true) {
 				controller.setPersistencePerson();
-				ppPanelPerson.setPersonList(controller.getPersistenceView());
-				ppPanelPerson.repaint();
+				panelPerson.setPersonList(controller.getPersistenceView());
+				panelPerson.repaint();
 				Thread.sleep(15);
 			}
 		} catch (Exception e) {}

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
+import Model.Passerby;
 import Model.Person;
 import View.PersonView;
 
@@ -20,7 +21,7 @@ import View.PersonView;
 public class Persistence {
 	
 //-----------------------------------------------------------------------------------PERSON-------------------------------------------	
-	public void uploadPersons(ArrayList<Person> personList) {
+	public void uploadPersons(ArrayList<Person> personList, ArrayList<Passerby> passerbyList) {
 		FileWriter fwFileWriter = null;
 		try {
 			fwFileWriter = new FileWriter("files/personList.txt");
@@ -30,6 +31,12 @@ public class Persistence {
 				for (int i = 0; i < personList.size(); i++) {
 					bwWrite.write(personList.get(i).getColor().getRed()+";P;"+personList.get(i).getColor().getGreen()+";P;"+
 								  personList.get(i).getColor().getBlue()+";P;"+personList.get(i).getX()+";P;"+personList.get(i).getY()+"\n");
+				}
+			}
+			if (passerbyList.size()>0) {
+				for (int i = 0; i < passerbyList.size(); i++) {
+					bwWrite.write(passerbyList.get(i).getColor().getRed()+";P;"+passerbyList.get(i).getColor().getGreen()+";P;"+
+							passerbyList.get(i).getColor().getBlue()+";P;"+passerbyList.get(i).getX()+";P;"+passerbyList.get(i).getY()+"\n");
 				}
 			}
 			bwWrite.close();

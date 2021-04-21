@@ -1,17 +1,26 @@
 package Model;
 
-public class ThreadMovement implements Runnable{
+public class RunnablePersonMovement implements Runnable{
 
 	private Person person;
+	private Management management;
 	
-	public ThreadMovement(Person person) {
+	public RunnablePersonMovement(Person person, Management management) {
 		this.person = person;
-		
+		this.management = management;
 	}
 	
 	@Override
 	public void run() {
 		try {
+			person.setY((int)(Math.random()*(570+1-470)+470));
+			if (person.isComingFromRightSide()) {
+				person.setX(730);
+				left(330);
+			}else {
+				person.setX(-30);
+				right(330);
+			}
 			up(390);
 			if (person.getModule()!=Module.ModuleThree) {
 				Thread.sleep(2000);
@@ -103,13 +112,4 @@ public class ThreadMovement implements Runnable{
 		}
 	}
 	
-	private void leftStep() {
-		while (person.getX()>190) {
-			try {
-				person.setX(person.getX()-1);
-				Thread.sleep(15);
-			} catch (Exception e) {}
-		}
-	}
-
 }

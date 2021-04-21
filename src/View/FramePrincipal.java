@@ -13,6 +13,9 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
+import Controller.Controller;
+import View.PanelPerson;
+import View.RunnableRepaintPerson;
 import net.miginfocom.swing.MigLayout;
 
 public class FramePrincipal extends JFrame{
@@ -43,17 +46,19 @@ public class FramePrincipal extends JFrame{
     private JLabel lblNewLabel_3;
     private JPanel panelnformacion;
     private JLabel lblNewLabel_4_1;
-    private JPanel panel;
-    private JLabel lblPanelSalaDe;
+    private PanelPerson panelPerson;
+    private RunnableRepaintPerson runnableRepaintPerson;
+    private Thread threadRepaint;
 
     public FramePrincipal()  {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1200, 716);
+        setBackground(Color.DARK_GRAY);
+        setBounds(100, 100, 1480, 716);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new BorderLayout(0, 0));
         setContentPane(contentPane);
-        setLocation(10,20);
+        setLocationRelativeTo(null);;
         setVisible(true);
 
     }
@@ -62,6 +67,11 @@ public class FramePrincipal extends JFrame{
         inicializar();
         estilos();
         agregar();
+    }
+    
+    public void assignController(Controller controller) {
+    	runnableRepaintPerson.assignController(controller);
+    	threadRepaint.start();
     }
 
 
@@ -72,7 +82,7 @@ public class FramePrincipal extends JFrame{
         panelPrestamos = new JPanel();
         panelAsesorias = new JPanel();
         panelnformacion = new JPanel();
-        panel = new JPanel();
+        panelPerson = new PanelPerson();
 
         lblNewLabel_4 = new JLabel("M\u00F3dulo 3");
         lblNewLabel_2_1 = new JLabel("Retiros y consignaciones");
@@ -106,8 +116,10 @@ public class FramePrincipal extends JFrame{
         txtTurnoActualModulo2 = new JTextField();
 
         lblNewLabel_4_1 = new JLabel("Simulaci\u00F3n turnos en un banco");
+        
+        runnableRepaintPerson = new RunnableRepaintPerson(panelPerson);
+        threadRepaint = new Thread(runnableRepaintPerson);
 
-        lblPanelSalaDe = new JLabel("Panel sala de espera");
     }
 
     public void agregar() {
@@ -144,15 +156,14 @@ public class FramePrincipal extends JFrame{
         contentPane.add(panelnformacion, BorderLayout.NORTH);
 
         panelnformacion.add(lblNewLabel_4_1);
-        contentPane.add(panel, BorderLayout.CENTER);
-        panel.add(lblPanelSalaDe);
+        contentPane.add(panelPerson, BorderLayout.CENTER);
 
     }
 
 
 
     public void estilos() {
-        panelModulo3_GenerarTurno.setBackground(Color.WHITE);
+        panelModulo3_GenerarTurno.setBackground(Color.DARK_GRAY);
         panelModulo3_GenerarTurno.setLayout(new MigLayout("", "[56px,grow]", "[24px,grow][grow]"));
 
         panelRetiros.setBackground(new Color(217, 108, 137));
@@ -161,6 +172,7 @@ public class FramePrincipal extends JFrame{
         lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 
         txtTurnoActualModulo3.setText("El turno actual es: -----");
+        txtTurnoActualModulo3.setEditable(false);
         txtTurnoActualModulo3.setHorizontalAlignment(SwingConstants.LEFT);
         txtTurnoActualModulo3.setFont(new Font("Tahoma", Font.PLAIN, 13));
         txtTurnoActualModulo3.setColumns(13);
@@ -192,7 +204,7 @@ public class FramePrincipal extends JFrame{
 
         cmbTramite.setBounds(140, 101, 140, 22);
 
-        panelModulo1_2.setBackground(Color.WHITE);
+        panelModulo1_2.setBackground(Color.DARK_GRAY);
         panelModulo1_2.setLayout(new MigLayout("", "[89px,grow]", "[23px,grow][][][][grow]"));
 
         panelPrestamos.setBackground(new Color(179,204,87));
@@ -203,6 +215,7 @@ public class FramePrincipal extends JFrame{
         txtTurnoActualModulo1.setHorizontalAlignment(SwingConstants.LEFT);
         txtTurnoActualModulo1.setFont(new Font("Tahoma", Font.PLAIN, 13));
         txtTurnoActualModulo1.setText("El turno actual es: -----");
+        txtTurnoActualModulo1.setEditable(false);
         txtTurnoActualModulo1.setColumns(13);
 
         panelAsesorias.setBackground(new Color(255, 190, 64));
@@ -214,17 +227,14 @@ public class FramePrincipal extends JFrame{
         txtTurnoActualModulo2.setHorizontalAlignment(SwingConstants.LEFT);
         txtTurnoActualModulo2.setFont(new Font("Tahoma", Font.PLAIN, 13));
         txtTurnoActualModulo2.setText("El turno actual es: ---");
+        txtTurnoActualModulo3.setEditable(false);
         txtTurnoActualModulo2.setColumns(13);
 
         panelnformacion.setBackground(new Color(239, 184, 16));
 
         lblNewLabel_4_1.setFont(new Font("Century Gothic", Font.PLAIN, 42));
+        
 
-        panel.setBackground(Color.RED);
-        panel.setLayout(null);
-
-        lblPanelSalaDe.setFont(new Font("Tahoma", Font.PLAIN, 41));
-        lblPanelSalaDe.setBounds(45, 124, 445, 104);
     }
 
     public JTextField getTxtTurnoActualModulo1() {

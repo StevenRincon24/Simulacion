@@ -1,12 +1,10 @@
 package Model;
 
 import java.awt.Color;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
-import java.util.Calendar;
 import java.util.Date;
 
 public class Person {
@@ -18,17 +16,17 @@ public class Person {
     private int x;
     private int y;
     private Thread tMovement;
-    
+    private boolean comingFromRightSide;
 
-    public Person(String personID, Name personName, Color color, Module module, Date date) {
+    public Person(String personID, Name personName, Color color, Module module, Date date, boolean comingFromRightSide, Management management) {
         this.personID = personID;
         this.personName = personName;
         this.date = date;
         this.module = module;
         this.color = color;
         x=330;
-        y=475;
-        tMovement = new Thread(new ThreadMovement(this));
+        this.comingFromRightSide = comingFromRightSide;
+        tMovement = new Thread(new RunnablePersonMovement(this, management));
         tMovement.start();
     }
 
@@ -53,6 +51,10 @@ public class Person {
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean isComingFromRightSide() {
+		return comingFromRightSide;
 	}
 
 	public Date getDate() {
