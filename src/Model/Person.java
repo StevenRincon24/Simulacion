@@ -1,7 +1,6 @@
 package Model;
 
 import java.awt.Color;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
@@ -17,6 +16,7 @@ public class Person {
     private int y;
     private Thread tMovement;
     private boolean comingFromRightSide;
+    private String turn;
 
     public Person(String personID, Name personName, Color color, Module module, Date date, boolean comingFromRightSide, Management management) {
         this.personID = personID;
@@ -34,8 +34,8 @@ public class Person {
         return personID;
     }
 
-    public String getPersonName() {
-        return personID;
+    public Name getPersonName() {
+        return personName;
     }
     
 	public Module getModule() {
@@ -43,7 +43,7 @@ public class Person {
 	}
 
 	public boolean isAdult() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+//		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 //		System.out.println(""+sdf.format(date));
 		int period = Period.between(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears();
 //		System.out.println(period);
@@ -80,5 +80,29 @@ public class Person {
 	public void setY(int y) {
 		this.y = y;
 	}
+
+	public int getChairPosition() {
+		int chairPosition = 0;
+		String auxTurn = "";
+		for (int i=1; i<turn.length(); i++) {
+			auxTurn+=turn.charAt(i);
+		}
+		chairPosition = Integer.parseInt(auxTurn)%6;
+		if (chairPosition==0) {
+			return 6;
+		}
+		return chairPosition;
+	}
+
+
+	public String getTurn() {
+		return turn;
+	}
+
+	public void setTurn(String turn) {
+		this.turn = turn;
+	}
+	
+	
 	
 }

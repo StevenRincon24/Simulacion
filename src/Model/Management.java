@@ -1,23 +1,36 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Management {
 	
 	private ArrayList<Proceeding> proceedingsList;
+	private ArrayList<LinkedList<Person>> queueList;
 	private ArrayList<Person> personList;
 	private ArrayList<Passerby> passerbyList;
 	private Thread threadGeneratePerson;
 	private Thread threadGeneratePasserby;
+	private int gTurn;
+	private int aTurn;
 	
 	public Management(){
 		proceedingsList = new ArrayList<Proceeding>();
+		proceedingsList.add(new Proceeding(Module.ModuleOne, this));
+		proceedingsList.add(new Proceeding(Module.ModuleTwo, this));	//[0]  Module 1 //[1]  Module 2 //[2]  Module 3
+		proceedingsList.add(new Proceeding(Module.ModuleThree, this));
+		queueList= new ArrayList<LinkedList<Person>>();
+		for (int i = 0; i < 4; i++) {	
+			queueList.add(new LinkedList<Person>());	//[0]  Module 1 //[1]  Module 2 //[2] & [3]  Module 3
+		}							
 		passerbyList = new ArrayList<Passerby>();
 		threadGeneratePasserby = new Thread(new RunnableGeneratePasserby(this));
 		threadGeneratePasserby.start();
 		personList = new ArrayList<Person>();
 		threadGeneratePerson = new Thread(new RunnableGeneratePerson(this));
 		threadGeneratePerson.start();
+		gTurn = 0;
+		aTurn = 0;
 	}
 	
 	public void addPerson(Person person) {
@@ -44,6 +57,92 @@ public class Management {
 		return passerbyList;
 	}
 	
+	public void setTurn(Person person) {
+		if (person.getModule()==Module.ModuleOne) {
+			gTurn++;
+			person.setTurn("G"+gTurn);
+			queueList.get(0).add(person);
+		}else if (person.getModule()==Module.ModuleTwo) {
+			aTurn++;
+			person.setTurn("A"+aTurn);
+			queueList.get(1).add(person);
+		}else{
+			if (!person.isAdult()) {
+				queueList.get(2).add(person);
+			}else {
+				queueList.get(2).add(person);
+			}
+		}
+	}
 	
+	private int getQueuePosition(Person person) {
+		if (person.getModule()==Module.ModuleOne) {
+			for (int i=0; i<queueList.get(0).size(); i++) {
+				if (queueList.get(0).get(i)==person) {
+					return i+1;
+				}
+			}
+		}else if(person.getModule()==Module.ModuleTwo) {
+			for (int i=0; i<queueList.get(1).size(); i++) {
+				if (queueList.get(1).get(i)==person) {
+					return i+1;
+				}
+			}
+		}else {
+			for (int i=0; i<queueList.get(2).size(); i++) {
+				if (queueList.get(2).get(i)==person) {
+					return i+1;
+				}
+			}
+			for (int i=0; i<queueList.get(3).size(); i++) {
+				if (queueList.get(3).get(i)==person) {
+					return i+1;
+				}
+			}
+		}
+		return -1;
+	}
+	
+	private boolean isAModuleFree(Person person) {
+		if (person.getModule()==Module.ModuleOne && proceedingsList.get(0).getPerson()==null) {
+			return true;
+		}else if(person.getModule()==Module.ModuleTwo && proceedingsList.get(1).getPerson()==null) {
+			return true;
+		}else {
+			
+		}
+		return false;
+	}
+	
+	public boolean waiting(Person person) {
+		if(getQueuePosition(person) == 1 && isAModuleFree(person)) {
+			return false;
+		}
+		return true;
+	}
+	
+	public void nextPerson(Proceeding proceeding) {
+		if (proceeding.getModule()==Module.ModuleOne) {
+			proceedingsList.get(0).setPerson(null);
+		}else if (proceeding.getModule()==Module.ModuleTwo) {
+			proceedingsList.get(1).setPerson(null);
+		}else{
+
+		}
+	}
+	
+	public void goToModule(Person person) {
+		if (person.getModule()==Module.ModuleOne) {
+			proceedingsList.get(0).setPerson(queueList.get(0).poll());
+		}else if (person.getModule()==Module.ModuleTwo) {
+			proceedingsList.get(1).setPerson(queueList.get(1).poll());
+		}else{
+
+		}
+	}
+	
+	public boolean waitBeingServed(Person person) {
+		return isAModuleFree(person);
+	}
 
 }

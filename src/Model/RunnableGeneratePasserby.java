@@ -17,8 +17,8 @@ public class RunnableGeneratePasserby implements Runnable{
 		boolean comingFromRightSide;
 		boolean crazy;
 		int aux;
-		try {
-			while (true) {
+		while (true) {
+			try {
 				if (management.getPasserbyList().size()<8) {
 					color = new Color((int)(Math.random()*(256)),(int)(Math.random()*(256)),(int)(Math.random()*(256)));
 					aux = (int)(Math.random()*(2));// 50%
@@ -37,9 +37,7 @@ public class RunnableGeneratePasserby implements Runnable{
 					management.addpasserby(passerby);
 				}
 				Thread.sleep((int)(Math.random()*(4000+1)+800));//0.8s a 4s
-			}
-		} catch (Exception e) {
-			System.out.println(e);
+			} catch (Exception e) {}
 		}
 	}
 }

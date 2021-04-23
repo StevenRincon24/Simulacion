@@ -20,11 +20,18 @@ import View.PersonView;
  */
 public class Persistence {
 	
+	public void createFiles() {
+		File file = new File("/Desktop/files");
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+	}
+	
 //-----------------------------------------------------------------------------------PERSON-------------------------------------------	
 	public void uploadPersons(ArrayList<Person> personList, ArrayList<Passerby> passerbyList) {
 		FileWriter fwFileWriter = null;
 		try {
-			fwFileWriter = new FileWriter("files/personList.txt");
+			fwFileWriter = new FileWriter("/Desktop/files/personList.txt");
 			BufferedWriter bwWrite = new BufferedWriter(fwFileWriter);
 
 			if (personList.size()>0) {
@@ -57,7 +64,7 @@ public class Persistence {
 	public ArrayList<PersonView> downloadPerson() {
 		ArrayList<PersonView> personList = new ArrayList<PersonView>();
 		try {
-			File file = new File("files/personList.txt");
+			File file = new File("/Desktop/files/personList.txt");
 			Scanner sc = new Scanner(file);
 			Color color;
 			while (sc.hasNextLine()) {

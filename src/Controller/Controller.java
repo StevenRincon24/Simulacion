@@ -14,6 +14,7 @@ public class Controller {
 	public Controller() {
 		management = new Management();
 		persistence = new Persistence();
+		persistence.createFiles();
 	}
 	
 	public void setPersistencePerson() {

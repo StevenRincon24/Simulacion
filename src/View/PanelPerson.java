@@ -75,10 +75,10 @@ public class PanelPerson extends JPanel{
 		auxGraph.drawRect(510, 100, 165, 60);
 		auxGraph.drawString("Retiros y Consignaciones", 525, 140);
 		auxGraph.setColor(new Color(255, 190, 64));
-		auxGraph.drawRect(20, 325, 120, 60);
-		auxGraph.drawString("Asesoria", 60, 360);
+		auxGraph.drawRect(20, 340, 120, 60);
+		auxGraph.drawString("Asesoria", 60, 380);
 		auxGraph.setColor(new Color(240, 240, 129));
-		auxGraph.drawRect(270, 335, 90, 50);
+		auxGraph.drawRect(270, 340, 90, 50);
 		auxGraph.drawString("Ticked", 295, 365);
 		
 		if (personList.size()>0) {

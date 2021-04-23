@@ -24,8 +24,8 @@ public class RunnableGeneratePerson implements Runnable{
 		int moduleIndex;
 		Calendar calendar = new GregorianCalendar();
 		Date date;
-		try {
-			while (true) {
+		while (true) {
+			try {
 				if (management.getPersonList().size()<28) {
 					id = (int)(Math.random()*(999999999+1)+1000000000);
 					color = new Color((int)(Math.random()*(256)),(int)(Math.random()*(256)),(int)(Math.random()*(256)));
@@ -45,9 +45,7 @@ public class RunnableGeneratePerson implements Runnable{
 					System.out.println("FULL");
 				}
 				Thread.sleep((int)(Math.random()*(6000+1)+2300));//2.3s a 6s
-			}
-		} catch (Exception e) {
-			System.out.println(e);
+			} catch (Exception e) {}
 		}
 	}
 	
@@ -67,13 +65,10 @@ public class RunnableGeneratePerson implements Runnable{
 		}
 		
 		if(module==Module.ModuleOne && countModule1<6) {
-			System.out.println("1::"+countModule1+"   2::"+countModule2+"   3::"+countModule3);
 			return true;
 		}else if(module==Module.ModuleTwo && countModule2<6) {
-			System.out.println("1::"+countModule1+"   2::"+countModule2+"   3::"+countModule3);
 			return true;
 		}else if(module==Module.ModuleThree && countModule3<16) {
-			System.out.println("1::"+countModule1+"   2::"+countModule2+"   3::"+countModule3);
 			return true;
 		}
 		
@@ -91,7 +86,6 @@ public class RunnableGeneratePerson implements Runnable{
 				young++;
 			}
 		}
-		System.out.println(year);
 		if (adult<4 && year<=1961) {
 			return true;
 		}else if (young<12 && year>1961) {
@@ -100,5 +94,5 @@ public class RunnableGeneratePerson implements Runnable{
 		System.out.println("AGAIN");
 		return false;
 	}
-
+	
 }
