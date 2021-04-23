@@ -6,8 +6,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Scanner;
 
 import Model.Passerby;
@@ -20,18 +20,24 @@ import View.PersonView;
  */
 public class Persistence {
 	
+	private Path path;
+	
 	public void createFiles() {
-		File file = new File("/Desktop/files");
-		if (!file.exists()) {
-			file.mkdirs();
-		}
+		try {
+			File file = new File(".");
+			file = new File(file.getCanonicalPath()+"/SimulationFiles");
+			path = file.toPath();
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+		} catch (Exception e) {}
 	}
 	
 //-----------------------------------------------------------------------------------PERSON-------------------------------------------	
 	public void uploadPersons(ArrayList<Person> personList, ArrayList<Passerby> passerbyList) {
 		FileWriter fwFileWriter = null;
 		try {
-			fwFileWriter = new FileWriter("/Desktop/files/personList.txt");
+			fwFileWriter = new FileWriter(path+"/personList.txt");
 			BufferedWriter bwWrite = new BufferedWriter(fwFileWriter);
 
 			if (personList.size()>0) {
@@ -64,7 +70,7 @@ public class Persistence {
 	public ArrayList<PersonView> downloadPerson() {
 		ArrayList<PersonView> personList = new ArrayList<PersonView>();
 		try {
-			File file = new File("/Desktop/files/personList.txt");
+			File file = new File(path+"/personList.txt");
 			Scanner sc = new Scanner(file);
 			Color color;
 			while (sc.hasNextLine()) {
