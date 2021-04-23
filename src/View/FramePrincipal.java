@@ -1,22 +1,12 @@
 package View;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
-
 import Controller.Controller;
-import View.PanelPerson;
-import View.RunnableRepaintPerson;
 import net.miginfocom.swing.MigLayout;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class FramePrincipal extends JFrame{
 
@@ -267,6 +257,17 @@ public class FramePrincipal extends JFrame{
 
     public void setTxtCedulaGenerarTurno(JTextField txtCedulaGenerarTurno) {
         this.txtCedulaGenerarTurno = txtCedulaGenerarTurno;
+    }
+
+    //TODO Implementar las acciones del boton para capturar los datos
+    public void actioner(){
+        btnGenerarTurno.addActionListener((ActionEvent e) -> addPerson());
+
+
+    }
+
+    public void addPerson(){
+
     }
 
     public JButton getBtnGenerarTurno() {

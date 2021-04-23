@@ -1,10 +1,10 @@
 package Controller;
 
-import java.util.ArrayList;
-
 import Model.Management;
 import Persistence.Persistence;
 import View.PersonView;
+
+import java.util.ArrayList;
 
 public class Controller {
 

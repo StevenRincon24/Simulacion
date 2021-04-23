@@ -7,9 +7,11 @@ public class RunnableModule implements Runnable{
 	private int breakTime;
 	private Proceeding proceeding;
 	private Management management;
+
+
 	
 	public RunnableModule(Proceeding proceeding, Management management) {
-		timeExpected = 8000;
+		timeExpected = (int)(Math.random()*(15-5+1)+5);
 		timeWorked = 0;
 		breakTime = 0;
 		this.proceeding = proceeding;

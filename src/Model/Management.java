@@ -32,6 +32,12 @@ public class Management {
 		gTurn = 0;
 		aTurn = 0;
 	}
+
+
+	//TODO Agregar persona manualmente
+	public void addPersonManually(String id){
+
+	}
 	
 	public void addPerson(Person person) {
 		personList.add(person);
