@@ -42,12 +42,11 @@ public class PanelPerson extends JPanel{
 		auxGraph.drawLine(0, 470, 230, 470);
 		auxGraph.drawLine(400, 470, 750, 470);
 		auxGraph.setColor(Color.LIGHT_GRAY);
-		auxGraph.drawLine(510, 200, 510, 360);
-		auxGraph.drawLine(550, 200, 550, 320);
-		auxGraph.drawLine(510, 360, 590, 360);
-		auxGraph.drawLine(590, 240, 590, 360);
-		auxGraph.drawLine(550, 200, 630, 200);
-		auxGraph.drawLine(630, 200, 630, 360);
+		auxGraph.drawLine(550, 200, 550, 360);
+		auxGraph.drawLine(590, 200, 590, 320);
+		auxGraph.drawLine(550, 360, 630, 360);
+		auxGraph.drawLine(630, 240, 630, 360);
+		auxGraph.drawLine(590, 200, 670, 200);
 		auxGraph.drawLine(670, 200, 670, 360);
 		auxGraph.setColor(new Color(45, 87, 44));
 		auxGraph.fillRect(350, 20, 50, 120);

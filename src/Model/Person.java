@@ -16,7 +16,8 @@ public class Person {
     private int y;
     private Thread tMovement;
     private boolean comingFromRightSide;
-    private String turn;
+    private int turn;
+    private int queuePosition;
 
     public Person(String personID, Name personName, Color color, Module module, Date date, boolean comingFromRightSide, Management management) {
         this.personID = personID;
@@ -25,6 +26,7 @@ public class Person {
         this.module = module;
         this.color = color;
         x=330;
+		queuePosition = 12;
         this.comingFromRightSide = comingFromRightSide;
         tMovement = new Thread(new RunnablePersonMovement(this, management));
         tMovement.start();
@@ -42,17 +44,6 @@ public class Person {
 		return module;
 	}
 
-	public boolean isAdult() {
-//		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-//		System.out.println(""+sdf.format(date));
-		int period = Period.between(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears();
-//		System.out.println(period);
-		if(period>=60) {
-			return true;
-		}
-		return false;
-	}
-	
 	public boolean isComingFromRightSide() {
 		return comingFromRightSide;
 	}
@@ -83,11 +74,7 @@ public class Person {
 
 	public int getChairPosition() {
 		int chairPosition = 0;
-		String auxTurn = "";
-		for (int i=1; i<turn.length(); i++) {
-			auxTurn+=turn.charAt(i);
-		}
-		chairPosition = Integer.parseInt(auxTurn)%6;
+		chairPosition = turn%6;
 		if (chairPosition==0) {
 			return 6;
 		}
@@ -95,14 +82,20 @@ public class Person {
 	}
 
 
-	public String getTurn() {
+	public int getTurn() {
 		return turn;
 	}
 
-	public void setTurn(String turn) {
+	public void setTurn(int turn) {
 		this.turn = turn;
 	}
-	
-	
+
+	public int getQueuePosition() {
+		return queuePosition;
+	}
+
+	public void setQueuePosition(int queuePosition) {
+		this.queuePosition = queuePosition;
+	}
 	
 }

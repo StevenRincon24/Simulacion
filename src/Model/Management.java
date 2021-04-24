@@ -19,16 +19,20 @@ public class Management {
 		proceedingsList.add(new Proceeding(Module.ModuleOne, this));
 		proceedingsList.add(new Proceeding(Module.ModuleTwo, this));	//[0]  Module 1 //[1]  Module 2 //[2]  Module 3
 		proceedingsList.add(new Proceeding(Module.ModuleThree, this));
+		
 		queueList= new ArrayList<LinkedList<Person>>();
-		for (int i = 0; i < 4; i++) {	
-			queueList.add(new LinkedList<Person>());	//[0]  Module 1 //[1]  Module 2 //[2] & [3]  Module 3
-		}							
+		queueList.add(new LinkedList<Person>());
+		queueList.add(new LinkedList<Person>());	//[0]  Module 1 //[1]  Module 2 //[2]  Module 3
+		queueList.add(new LinkedList<Person>());
+		
 		passerbyList = new ArrayList<Passerby>();
 		threadGeneratePasserby = new Thread(new RunnableGeneratePasserby(this));
 		threadGeneratePasserby.start();
+		
 		personList = new ArrayList<Person>();
 		threadGeneratePerson = new Thread(new RunnableGeneratePerson(this));
 		threadGeneratePerson.start();
+		
 		gTurn = 0;
 		aTurn = 0;
 	}
@@ -60,22 +64,18 @@ public class Management {
 	public void setTurn(Person person) {
 		if (person.getModule()==Module.ModuleOne) {
 			gTurn++;
-			person.setTurn("G"+gTurn);
+			person.setTurn(gTurn);
 			queueList.get(0).add(person);
 		}else if (person.getModule()==Module.ModuleTwo) {
 			aTurn++;
-			person.setTurn("A"+aTurn);
+			person.setTurn(aTurn);
 			queueList.get(1).add(person);
 		}else{
-			if (!person.isAdult()) {
-				queueList.get(2).add(person);
-			}else {
-				queueList.get(2).add(person);
-			}
+			queueList.get(2).add(person);
 		}
 	}
 	
-	private int getQueuePosition(Person person) {
+	public int getQueuePosition(Person person) {
 		if (person.getModule()==Module.ModuleOne) {
 			for (int i=0; i<queueList.get(0).size(); i++) {
 				if (queueList.get(0).get(i)==person) {
@@ -103,13 +103,13 @@ public class Management {
 		return -1;
 	}
 	
-	private boolean isAModuleFree(Person person) {
+	public boolean isAModuleFree(Person person) {
 		if (person.getModule()==Module.ModuleOne && proceedingsList.get(0).getPerson()==null) {
 			return true;
 		}else if(person.getModule()==Module.ModuleTwo && proceedingsList.get(1).getPerson()==null) {
 			return true;
-		}else {
-			
+		}else if(person.getModule()==Module.ModuleThree && proceedingsList.get(2).getPerson()==null) {
+			return true;
 		}
 		return false;
 	}
@@ -127,7 +127,7 @@ public class Management {
 		}else if (proceeding.getModule()==Module.ModuleTwo) {
 			proceedingsList.get(1).setPerson(null);
 		}else{
-
+			proceedingsList.get(2).setPerson(null);
 		}
 	}
 	
@@ -137,12 +137,14 @@ public class Management {
 		}else if (person.getModule()==Module.ModuleTwo) {
 			proceedingsList.get(1).setPerson(queueList.get(1).poll());
 		}else{
-
+			proceedingsList.get(2).setPerson(queueList.get(2).poll());
 		}
 	}
 	
 	public boolean waitBeingServed(Person person) {
-		return isAModuleFree(person);
+		if(person.getModule()==Module.ModuleThree && proceedingsList.get(2).getPerson()==null) {
+			return true;
+		}
+		return false;
 	}
-
 }

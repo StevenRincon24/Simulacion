@@ -1,7 +1,6 @@
 package Model;
 
 import java.awt.Color;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,12 +32,10 @@ public class RunnableGeneratePerson implements Runnable{
 					do {
 						moduleIndex = (int)(Math.random()*(Module.values().length));
 					}while(!checkModule(Module.values()[moduleIndex]));
-					do {
-						calendar.set(Calendar.YEAR, (int)(Math.random()*((2021-19)-(2021-80))+(2021-80)));
-						calendar.set(Calendar.DAY_OF_YEAR, (int)(Math.random()*(calendar.getActualMaximum(Calendar.DAY_OF_YEAR)))+1);
-						calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
-						date= new Date(calendar.get(Calendar.YEAR)-1900, calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_YEAR));
-					}while(Module.values()[moduleIndex]==Module.ModuleThree && !checkAge(calendar.get(Calendar.YEAR)));
+					calendar.set(Calendar.YEAR, (int)(Math.random()*((2021-19)-(2021-80))+(2021-80)));
+					calendar.set(Calendar.DAY_OF_YEAR, (int)(Math.random()*(calendar.getActualMaximum(Calendar.DAY_OF_YEAR)))+1);
+					calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
+					date= new Date(calendar.get(Calendar.YEAR)-1900, calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_YEAR));
 					person = new Person(""+id, Name.values()[nameIndex], color, Module.values()[moduleIndex], date, true, management);
 					management.addPerson(person);
 				}else {
@@ -68,30 +65,10 @@ public class RunnableGeneratePerson implements Runnable{
 			return true;
 		}else if(module==Module.ModuleTwo && countModule2<6) {
 			return true;
-		}else if(module==Module.ModuleThree && countModule3<16) {
+		}else if(module==Module.ModuleThree && countModule3<12) {
 			return true;
 		}
 		
-		return false;
-	}
-	
-	private boolean checkAge(int year) {
-		ArrayList<Person> personList = management.getPersonList();
-		int adult = 0;
-		int young = 0;
-		for (int i = 0; i < personList.size(); i++) {
-			if (personList.get(i).isAdult() && personList.get(i).getModule()==Module.ModuleThree) {
-				adult++;
-			}else if(personList.get(i).getModule()==Module.ModuleThree) {
-				young++;
-			}
-		}
-		if (adult<4 && year<=1961) {
-			return true;
-		}else if (young<12 && year>1961) {
-			return true;
-		}
-		System.out.println("AGAIN");
 		return false;
 	}
 	

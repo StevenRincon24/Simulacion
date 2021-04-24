@@ -13,14 +13,14 @@ public class RunnableRepaintPerson implements Runnable{
 	
 	@Override
 	public void run() {
-		try {
-			while (true) {
+		while (true) {
+			try {
 				controller.setPersistencePerson();
 				panelPerson.setPersonList(controller.getPersistenceView());
 				panelPerson.repaint();
 				Thread.sleep(15);
-			}
-		} catch (Exception e) {}
+			} catch (Exception e) {}
+		}
 		
 	}
 	

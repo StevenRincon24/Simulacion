@@ -13,7 +13,7 @@ public class RunnablePersonMovement implements Runnable{
 	@Override
 	public void run() {
 		try {
-			person.setY((int)(Math.random()*(575+1-470)+470));
+			person.setY((int)(Math.random()*(575+1-475)+475));
 			if (person.isComingFromRightSide()) {
 				person.setX(730);
 				left(330);
@@ -34,12 +34,9 @@ public class RunnablePersonMovement implements Runnable{
 					chairs();
 				}
 			}else {
-				if (person.isAdult()) {
-					right(637);
-					up(200);
-				}else {
-					right(597);
-				}
+				right(637);
+				up(360);
+				queue();
 			}
 			goToModule();
 			management.goToModule(person);
@@ -48,8 +45,13 @@ public class RunnablePersonMovement implements Runnable{
 				right(190);
 				down(395);
 				right(260);
+			}else {
+				left(480);
+				down(395);
+				left(260);
 			}
-			down((int)(Math.random()*(575+1-470)+470));
+			
+			down((int)(Math.random()*(575+1-475)+475));
 			if (person.isComingFromRightSide()) {
 				left(-30);
 			}else {
@@ -145,7 +147,8 @@ public class RunnablePersonMovement implements Runnable{
 				up(90);
 			}
 		}else {
-			
+			up(170);
+			right(590);
 		}
 	}
 	
@@ -167,12 +170,40 @@ public class RunnablePersonMovement implements Runnable{
 			down(person.getY()-5+((person.getChairPosition()-3)*40));
 		}
 	}
+	private void queue() {
+		while (person.getQueuePosition()!=0) {//person.getY()!=200 && (person.getX()!=637 || person.getX()!=517)
+			System.out.println(management.getQueuePosition(person)+"  VS  "+person.getQueuePosition());
+			if (management.getQueuePosition(person)<person.getQueuePosition() || person.getQueuePosition()==1) {
+				if (person.getQueuePosition()>=1 && person.getQueuePosition()<=4) {
+					up(person.getY()-35);
+				}else if (person.getQueuePosition()>=5 && person.getQueuePosition()<=8) {
+					down(person.getY()+30);
+				}else if (person.getQueuePosition()>=9 && person.getQueuePosition()<=12) {
+					up(person.getY()-38);
+				}
+				if (person.getQueuePosition()==5 || person.getQueuePosition()==9) {
+					left(person.getX()-40);
+				}
+				person.setQueuePosition(person.getQueuePosition()-1);
+			}
+		}
+		System.err.println("sali WHILE");
+		waiting();
+	}
 	
 	private void waitBeingServed() {
-		while(!management.waitBeingServed(person)) {
-			try {
-				Thread.sleep(10);
-			} catch (Exception e) {}
+		if (person.getModule()!=Module.ModuleThree) {
+			while(!management.isAModuleFree(person)) {
+				try {
+					Thread.sleep(10);
+				} catch (Exception e) {}
+			}
+		}else {
+			while(!management.waitBeingServed(person)) {
+				try {
+					Thread.sleep(10);
+				} catch (Exception e) {}
+			}
 		}
 	}
 }
