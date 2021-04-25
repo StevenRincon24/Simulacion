@@ -1,10 +1,20 @@
 package Model;
 
+import java.awt.Color;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
+import java.util.Random;
+
 
 public class Management {
-	
+
+
+	private ArrayList<Person> personListModulOne;
+	private ArrayList<Person> personListModulTwo;
+	private ArrayList<Person> personListModulThree;
+
 	private ArrayList<Proceeding> proceedingsList;
 	private ArrayList<LinkedList<Person>> queueList;
 	private ArrayList<Person> personList;
@@ -13,42 +23,48 @@ public class Management {
 	private Thread threadGeneratePasserby;
 	private int gTurn;
 	private int aTurn;
-	
+	private int cTurn;
+
 	public Management(){
 		proceedingsList = new ArrayList<Proceeding>();
 		proceedingsList.add(new Proceeding(Module.ModuleOne, this));
 		proceedingsList.add(new Proceeding(Module.ModuleTwo, this));	//[0]  Module 1 //[1]  Module 2 //[2]  Module 3
 		proceedingsList.add(new Proceeding(Module.ModuleThree, this));
-		
+
 		queueList= new ArrayList<LinkedList<Person>>();
 		queueList.add(new LinkedList<Person>());
 		queueList.add(new LinkedList<Person>());	//[0]  Module 1 //[1]  Module 2 //[2]  Module 3
 		queueList.add(new LinkedList<Person>());
-		
+
 		passerbyList = new ArrayList<Passerby>();
 		threadGeneratePasserby = new Thread(new RunnableGeneratePasserby(this));
 		threadGeneratePasserby.start();
-		
+
 		personList = new ArrayList<Person>();
 		threadGeneratePerson = new Thread(new RunnableGeneratePerson(this));
 		threadGeneratePerson.start();
-		
+
+		personListModulOne = new ArrayList<>();
+		personListModulTwo = new ArrayList<>();
+		personListModulThree = new ArrayList<>();
+
 		gTurn = 0;
 		aTurn = 0;
+		cTurn = 0;
 	}
-	
+
 	public void addPerson(Person person) {
 		personList.add(person);
 	}
-	
+
 	public void deletePerson(Person person) {
 		personList.remove(person);
 	}
-	
+
 	public void addpasserby(Passerby passerby) {
 		passerbyList.add(passerby);
 	}
-	
+
 	public void deletepasserby(Passerby passerby) {
 		passerbyList.remove(passerby);
 	}
@@ -56,25 +72,32 @@ public class Management {
 	public ArrayList<Person> getPersonList() {
 		return personList;
 	}
-	
+
 	public ArrayList<Passerby> getPasserbyList() {
 		return passerbyList;
 	}
-	
+
 	public void setTurn(Person person) {
 		if (person.getModule()==Module.ModuleOne) {
+			personListModulOne.add(person);
 			gTurn++;
 			person.setTurn(gTurn);
 			queueList.get(0).add(person);
+
 		}else if (person.getModule()==Module.ModuleTwo) {
+			personListModulTwo.add(person);
 			aTurn++;
 			person.setTurn(aTurn);
 			queueList.get(1).add(person);
-		}else{
+
+		}else if (person.getModule()==Module.ModuleThree){
+			personListModulThree.add(person);
+			cTurn++;
+			person.setTurn(cTurn);
 			queueList.get(2).add(person);
 		}
 	}
-	
+
 	public int getQueuePosition(Person person) {
 		if (person.getModule()==Module.ModuleOne) {
 			for (int i=0; i<queueList.get(0).size(); i++) {
@@ -88,21 +111,17 @@ public class Management {
 					return i+1;
 				}
 			}
-		}else {
-			for (int i=0; i<queueList.get(2).size(); i++) {
+
+		}else if (person.getModule() == Module.ModuleThree){
+			for (int i=0; i<queueList.get(2).size(); i++ ){
 				if (queueList.get(2).get(i)==person) {
-					return i+1;
-				}
-			}
-			for (int i=0; i<queueList.get(3).size(); i++) {
-				if (queueList.get(3).get(i)==person) {
 					return i+1;
 				}
 			}
 		}
 		return -1;
 	}
-	
+
 	public boolean isAModuleFree(Person person) {
 		if (person.getModule()==Module.ModuleOne && proceedingsList.get(0).getPerson()==null) {
 			return true;
@@ -113,14 +132,14 @@ public class Management {
 		}
 		return false;
 	}
-	
+
 	public boolean waiting(Person person) {
 		if(getQueuePosition(person) == 1 && isAModuleFree(person)) {
 			return false;
 		}
 		return true;
 	}
-	
+
 	public void nextPerson(Proceeding proceeding) {
 		if (proceeding.getModule()==Module.ModuleOne) {
 			proceedingsList.get(0).setPerson(null);
@@ -130,21 +149,93 @@ public class Management {
 			proceedingsList.get(2).setPerson(null);
 		}
 	}
-	
+
 	public void goToModule(Person person) {
 		if (person.getModule()==Module.ModuleOne) {
 			proceedingsList.get(0).setPerson(queueList.get(0).poll());
 		}else if (person.getModule()==Module.ModuleTwo) {
 			proceedingsList.get(1).setPerson(queueList.get(1).poll());
-		}else{
+		}else if (person.getModule()==Module.ModuleThree){
 			proceedingsList.get(2).setPerson(queueList.get(2).poll());
 		}
 	}
-	
+
 	public boolean waitBeingServed(Person person) {
+		personList.add(person);
 		if(person.getModule()==Module.ModuleThree && proceedingsList.get(2).getPerson()==null) {
 			return true;
 		}
 		return false;
 	}
+
+	public String addPersonManually(String id, String module){
+
+		int pick = new Random().nextInt(Name.values().length);
+
+		Date dateA = new Date();
+		int yearF = (int)(Math.random()*(2000-1940+1)+1940);
+		String yearS = Integer.toString(yearF);
+		String fecha = "10/05/" + yearS;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			try {
+				dateA = simpleDateFormat.parse(fecha);
+				Person person = new Person(id, Name.values()[pick], new Color(255,255,255), Module.valueOf(module), dateA ,false, this);
+
+				personList.add(person);
+
+				if (person.getModule()==Module.ModuleOne){
+					return "Señor: " + id + " Turno Asignado Correctamente" + "\n" + "Verifique su turno en el modulo " + module + "\n" + "TURNO " + (gTurn+1);
+				}else if (person.getModule()==Module.ModuleTwo){
+					return "Señor: " + id + " Turno Asignado Correctamente" + "\n" + "Verifique su turno en el modulo " + module + "\n" + "TURNO " + (aTurn+1);
+				}else if (person.getModule()==Module.ModuleThree){
+					return "Señor: " + id + " Turno Asignado Correctamente" + "\n" + "Verifique su turno en el modulo " + module + "\n" + "TURNO " + (cTurn+1);
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return "Ha ocurrido un error inesperado";
+	}
+
+	public ArrayList<LinkedList<Person>> getTurn(){
+		return queueList;
+	}
+
+	public ArrayList<Proceeding> getModules(){
+		return proceedingsList;
+	}
+
+	public String personasModuloUno(){
+		String msj = "";
+		msj += "Personas Atentidas en el modulo 1 --- " + gTurn + "\n";
+		for (int i = 0; i < personListModulOne.size(); i++){
+			msj += "Nombre: " + personListModulOne.get(i).getPersonName() + "\n" ;
+
+		}
+		return msj;
+
+	}
+
+	public String personasModuloTwo(){
+		String msj = "";
+		msj += "Personas Atentidas en el modulo 2 --- " + aTurn + "\n";
+		for (int i = 0; i < personListModulTwo.size(); i++){
+			msj += "Nombre: " + personListModulTwo.get(i).getPersonName() + "\n" ;
+
+		}
+		return msj;
+
+	}
+
+	public String personasModuloThree(){
+		String msj = "";
+		msj += "Personas Atentidas en el modulo 3 --- " + cTurn + "\n";
+		for (int i = 0; i < personListModulThree.size(); i++){
+			msj += "Nombre: " + personListModulThree.get(i).getPersonName() + "\n" ;
+
+		}
+		return msj;
+
+	}
+
 }

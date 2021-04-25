@@ -172,7 +172,6 @@ public class RunnablePersonMovement implements Runnable{
 	}
 	private void queue() {
 		while (person.getQueuePosition()!=0) {//person.getY()!=200 && (person.getX()!=637 || person.getX()!=517)
-			System.out.println(management.getQueuePosition(person)+"  VS  "+person.getQueuePosition());
 			if (management.getQueuePosition(person)<person.getQueuePosition() || person.getQueuePosition()==1) {
 				if (person.getQueuePosition()>=1 && person.getQueuePosition()<=4) {
 					up(person.getY()-35);
@@ -187,7 +186,6 @@ public class RunnablePersonMovement implements Runnable{
 				person.setQueuePosition(person.getQueuePosition()-1);
 			}
 		}
-		System.err.println("sali WHILE");
 		waiting();
 	}
 	

@@ -38,8 +38,6 @@ public class RunnableGeneratePerson implements Runnable{
 					date= new Date(calendar.get(Calendar.YEAR)-1900, calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_YEAR));
 					person = new Person(""+id, Name.values()[nameIndex], color, Module.values()[moduleIndex], date, true, management);
 					management.addPerson(person);
-				}else {
-					System.out.println("FULL");
 				}
 				Thread.sleep((int)(Math.random()*(6000+1)+2300));//2.3s a 6s
 			} catch (Exception e) {}

@@ -1,24 +1,17 @@
 package View;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
-
 import Controller.Controller;
-import View.PanelPerson;
-import View.RunnableRepaintPerson;
+import Model.Management;
+import Model.Module;
 import net.miginfocom.swing.MigLayout;
 
-public class FramePrincipal extends JFrame{
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.util.ArrayList;
+
+public class FramePrincipal extends JFrame implements Actioner{
+
 
     private JPanel contentPane;
     private JTextField txtTurnoActualModulo1;
@@ -50,11 +43,18 @@ public class FramePrincipal extends JFrame{
     private RunnableRepaintPerson runnableRepaintPerson;
     private Thread threadRepaint;
 
+    private RunnableUpdateTurnos runnableUpdateTurnos;
+    private Thread threadTurnos;
+
+    private ArrayList<TurnWithPerson> turnWithPeople;
+
+    private Management management;
+
     public FramePrincipal()  {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBackground(Color.DARK_GRAY);
         setBounds(100, 100, 1480, 716);
         contentPane = new JPanel();
+        this.setBackground(Color.DARK_GRAY);
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new BorderLayout(0, 0));
         setContentPane(contentPane);
@@ -72,6 +72,15 @@ public class FramePrincipal extends JFrame{
     public void assignController(Controller controller) {
     	runnableRepaintPerson.assignController(controller);
     	threadRepaint.start();
+
+    	runnableUpdateTurnos.assignController(controller);
+    	threadTurnos.start();
+
+        btnGenerarTurno.setActionCommand(Actioner.CAPTURARDATOS);
+        btnGenerarTurno.addActionListener(controller);
+
+        btnEstadisticas.setActionCommand(Actioner.ESTADISTICASVENTANA);
+        btnEstadisticas.addActionListener(controller);
     }
 
 
@@ -102,6 +111,7 @@ public class FramePrincipal extends JFrame{
 
         lblNewLabel_8 = new JLabel("Tr\u00E1mite");
         cmbTramite = new JComboBox();
+        cmbTramite.setModel(new DefaultComboBoxModel(Module.values()));
 
         lblNewLabel = new JLabel("M\u00F3dulo 1");
 
@@ -119,6 +129,10 @@ public class FramePrincipal extends JFrame{
         
         runnableRepaintPerson = new RunnableRepaintPerson(panelPerson);
         threadRepaint = new Thread(runnableRepaintPerson);
+
+        runnableUpdateTurnos = new RunnableUpdateTurnos(this);
+        threadTurnos = new Thread(runnableUpdateTurnos);
+
 
     }
 
@@ -163,6 +177,7 @@ public class FramePrincipal extends JFrame{
 
 
     public void estilos() {
+
         panelModulo3_GenerarTurno.setBackground(Color.DARK_GRAY);
         panelModulo3_GenerarTurno.setLayout(new MigLayout("", "[56px,grow]", "[24px,grow][grow]"));
 
@@ -171,7 +186,8 @@ public class FramePrincipal extends JFrame{
 
         lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 
-        txtTurnoActualModulo3.setText("El turno actual es: -----");
+        txtTurnoActualModulo3.setText("El turno actual es: ");
+
         txtTurnoActualModulo3.setEditable(false);
         txtTurnoActualModulo3.setHorizontalAlignment(SwingConstants.LEFT);
         txtTurnoActualModulo3.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -189,7 +205,7 @@ public class FramePrincipal extends JFrame{
         txtCedulaGenerarTurno.setBounds(140, 70, 140, 20);
         txtCedulaGenerarTurno.setColumns(10);
 
-        btnGenerarTurno.setBackground(Color.BLUE);
+        btnGenerarTurno.setBackground(new Color(25,135,84));
         btnGenerarTurno.setBorder(UIManager.getBorder("Button.border"));
         btnGenerarTurno.setBounds(160, 129, 89, 23);
 
@@ -214,7 +230,8 @@ public class FramePrincipal extends JFrame{
 
         txtTurnoActualModulo1.setHorizontalAlignment(SwingConstants.LEFT);
         txtTurnoActualModulo1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-        txtTurnoActualModulo1.setText("El turno actual es: -----");
+
+        txtTurnoActualModulo1.setText("El turno actual es: ");
         txtTurnoActualModulo1.setEditable(false);
         txtTurnoActualModulo1.setColumns(13);
 
@@ -226,7 +243,9 @@ public class FramePrincipal extends JFrame{
 
         txtTurnoActualModulo2.setHorizontalAlignment(SwingConstants.LEFT);
         txtTurnoActualModulo2.setFont(new Font("Tahoma", Font.PLAIN, 13));
-        txtTurnoActualModulo2.setText("El turno actual es: ---");
+
+
+        txtTurnoActualModulo2.setText("El turno actual es: ");
         txtTurnoActualModulo3.setEditable(false);
         txtTurnoActualModulo2.setColumns(13);
 
@@ -269,6 +288,14 @@ public class FramePrincipal extends JFrame{
         this.txtCedulaGenerarTurno = txtCedulaGenerarTurno;
     }
 
+    public JComboBox getCmbTramite() {
+        return cmbTramite;
+    }
+
+    public void setCmbTramite(JComboBox cmbTramite) {
+        this.cmbTramite = cmbTramite;
+    }
+
     public JButton getBtnGenerarTurno() {
         return btnGenerarTurno;
     }
@@ -283,6 +310,44 @@ public class FramePrincipal extends JFrame{
 
     public void setBtnEstadisticas(JButton btnEstadisticas) {
         this.btnEstadisticas = btnEstadisticas;
+    }
+
+
+    @Override
+    public String[] captureData(String section) {
+        if (section.equals(Actioner.CAPTURARDATOS)){
+            String[] data={
+                    getTxtCedulaGenerarTurno().getText(),
+                    "" + getCmbTramite().getSelectedItem()
+            };
+            return data;
+        }
+
+
+        return null;
+    }
+
+    @Override
+    public void mensaje(String mensaje) {
+        JOptionPane.showMessageDialog(null, mensaje);
+    }
+
+
+    public void setTurnWithPeople(ArrayList<TurnWithPerson> turnWithPeople) {
+        this.turnWithPeople = turnWithPeople;
+    }
+
+    public ArrayList<TurnWithPerson> getTurnWithPeople() {
+        return turnWithPeople;
+    }
+
+    public void updateFrame(){
+
+        txtTurnoActualModulo1.setText("El turno actual es: " + turnWithPeople.get(0).getTurno());
+        txtTurnoActualModulo2.setText("El turno actual es: " + turnWithPeople.get(1).getTurno());
+        txtTurnoActualModulo3.setText("El turno actual es: " + turnWithPeople.get(2).getTurno());
+        repaint();
+
     }
 
 

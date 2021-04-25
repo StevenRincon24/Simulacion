@@ -1,27 +1,27 @@
 package Persistence;
 
-import java.awt.Color;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 import Model.Passerby;
 import Model.Person;
+import Model.Proceeding;
 import View.PersonView;
+import View.TurnWithPerson;
+
+import java.awt.*;
+import java.io.*;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Scanner;
 
 
 /**
  * The Class Persistence.
  */
 public class Persistence {
-	
+
 	private Path path;
-	
+
 	public void createFiles() {
 		try {
 			File file = new File(".");
@@ -32,8 +32,72 @@ public class Persistence {
 			}
 		} catch (Exception e) {}
 	}
+
+//-----------------------------------------------------------------------------------Turn-------------------------------------------
+	public void uploadTurno(ArrayList<LinkedList<Person>> queueList, ArrayList<Proceeding> proceedingsList) {
+		FileWriter fwFileWriter = null;
+		try {
+			for(int i = 0; i<proceedingsList.size(); i++) {
+				fwFileWriter = new FileWriter(path+"/turnList"+i+".txt");
+				BufferedWriter bwWrite = new BufferedWriter(fwFileWriter);
+				
+				if (proceedingsList.get(i).getPerson()!=null) {
+					bwWrite.write(proceedingsList.get(i).getPerson().getTurn()+";"+queueList.get(i).size()+"\n");
+					if (queueList.get(i).size()>0) {
+						for (int j = 0; j<queueList.get(i).size(); j++) {
+							bwWrite.write(queueList.get(i).get(j).getPersonName()+";");
+							bwWrite.write(queueList.get(i).get(j).getPersonID()+"\n");
+						}
+					}
+				}
+				bwWrite.close();
+			}
+		} catch (Exception e) {
+			System.out.println("ERROR EN uploadTurn  "+e);
+		} finally {
+			if (fwFileWriter != null) {
+				try {
+					fwFileWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public ArrayList<TurnWithPerson> downloadTurn() {
+		ArrayList<TurnWithPerson> turnWithPersonList = new ArrayList<TurnWithPerson>();
+		ArrayList<PersonView> personList;
+		try {
+			for (int i=0; i<3; i++) {
+				personList = new ArrayList<PersonView>();
+				File file = new File(path+"/turnList"+i+".txt");
+				Scanner sc = new Scanner(file);
+
+				String turn = "";
+				while (sc.hasNextLine()) {
+					String line = sc.nextLine();
+					Scanner delimiting = new Scanner(line);
+					delimiting.useDelimiter("\\s*;\\s*");
+					
+					if (turn.equals("")) {
+						turn = delimiting.next();
+					}else {
+						PersonView person = new PersonView(delimiting.next(), delimiting.next());
+						personList.add(person);
+					}
+				}
+				turnWithPersonList.add(new TurnWithPerson(turn, personList));
+			}
+		} catch (Exception e) {
+			System.out.println("ERROR EN downloadTurn " + e );
+		}
+
+		return turnWithPersonList;
+	}
 	
 //-----------------------------------------------------------------------------------PERSON-------------------------------------------	
+
 	public void uploadPersons(ArrayList<Person> personList, ArrayList<Passerby> passerbyList) {
 		FileWriter fwFileWriter = null;
 		try {
@@ -43,7 +107,7 @@ public class Persistence {
 			if (personList.size()>0) {
 				for (int i = 0; i < personList.size(); i++) {
 					bwWrite.write(personList.get(i).getColor().getRed()+";P;"+personList.get(i).getColor().getGreen()+";P;"+
-								  personList.get(i).getColor().getBlue()+";P;"+personList.get(i).getX()+";P;"+personList.get(i).getY()+"\n");
+							personList.get(i).getColor().getBlue()+";P;"+personList.get(i).getX()+";P;"+personList.get(i).getY()+"\n");
 				}
 			}
 			if (passerbyList.size()>0) {
@@ -77,16 +141,16 @@ public class Persistence {
 				String line = sc.nextLine();
 				Scanner delimiting = new Scanner(line);
 				delimiting.useDelimiter("\\s*;P;\\s*");
-				
+
 				color = new Color(Integer.parseInt(delimiting.next()), Integer.parseInt(delimiting.next()), Integer.parseInt(delimiting.next()));
 				PersonView Person = new PersonView(color, Integer.parseInt(delimiting.next()), Integer.parseInt(delimiting.next()));
-				personList.add(Person);	
+				personList.add(Person);
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("EL ARCHIVO \"personList.txt\" NO EXISTE ");
 		}
-		
+
 		return personList;
 	}
-	
+
 }
