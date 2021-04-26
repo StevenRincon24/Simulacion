@@ -11,7 +11,7 @@ public class RunnableModule implements Runnable{
     private Management management;
 
     public RunnableModule(Proceeding proceeding, Management management) {
-        timeExpected = new Random().nextInt(9000 + 12000) + 1000;
+        timeExpected = new Random().nextInt(15000+1-9000) + 9000;
         timeWorked = 0;
         breakTime = 0;
         this.proceeding = proceeding;
@@ -23,16 +23,16 @@ public class RunnableModule implements Runnable{
         while (true) {
             while(timeWorked<=timeExpected && proceeding.getPerson()!=null) {
                 try {
-                    timeWorked += 10;
-                    Thread.sleep(10);
+                    timeWorked += 100;
+                    Thread.sleep(100);
                 } catch (Exception e) {}
             }
             management.nextPerson(proceeding);
             timeWorked = 0;
             while(breakTime<=2000 && proceeding.getPerson()==null) {
                 try {
-                    breakTime  += 10;
-                    Thread.sleep(10);
+                    breakTime  += 100;
+                    Thread.sleep(100);
                 } catch (Exception e) {}
             }
             breakTime = 0;

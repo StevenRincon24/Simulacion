@@ -1,13 +1,15 @@
 package View;
 
 import Controller.Controller;
-import Model.Management;
 import Model.Module;
 import net.miginfocom.swing.MigLayout;
+
 import javax.swing.*;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class FramePrincipal extends JFrame implements Actioner{
 
@@ -44,14 +46,22 @@ public class FramePrincipal extends JFrame implements Actioner{
     private RunnableUpdateTurnos runnableUpdateTurnos;
     private Thread threadTurnos;
     private ArrayList<TurnWithPerson> turnWithPeople;
+    private JScrollPane spModule1;
+    private JTextArea taDataModule1;
+    private JTextArea taQueueModule1;
+    private JScrollPane spModule2;
+    private JTextArea taDataModule2;
+    private JTextArea taQueueModule2;
+    private JScrollPane spModule3;
+    private JTextArea taDataModule3;
+    private JTextArea taQueueModule3;
 
     public FramePrincipal()  {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1480, 716);
+        setResizable(false);
+        setBounds(100, 100, 1357, 716);
         contentPane = new JPanel();
-        this.setBackground(Color.DARK_GRAY);
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        contentPane.setLayout(new BorderLayout(0, 0));
+        contentPane.setLayout(null);
         setContentPane(contentPane);
         setLocationRelativeTo(null);;
         setVisible(true);
@@ -80,18 +90,36 @@ public class FramePrincipal extends JFrame implements Actioner{
 
     public void inicializar() {
         panelModulo3_GenerarTurno = new JPanel();
+        panelModulo3_GenerarTurno.setLayout(null);
+        panelModulo3_GenerarTurno.setBounds(1025, 80, 332, 600);
         panelModulo1_2 = new JPanel();
+        panelModulo1_2.setLayout(null);
+        panelModulo1_2.setBounds(0, 80, 325, 600);
+        panelModulo1_2.setBackground(getForeground());
         panelRetiros = new JPanel();
+        panelRetiros.setLayout(null);
+        panelRetiros.setBounds(0, 0, 332, 300);
         panelPrestamos = new JPanel();
+        panelPrestamos.setLayout(null);
+        panelPrestamos.setBounds(0, 0, 325, 300);
         panelAsesorias = new JPanel();
+        panelAsesorias.setLayout(null);
+        panelAsesorias.setBounds(0, 300, 325, 300);
         panelnformacion = new JPanel();
+        panelnformacion.setBounds(0, 0, 1357, 80);
         panelPerson = new PanelPerson();
-
+        panelPerson.setBounds(325, 80, 700, 600);
+        
         lblNewLabel_4 = new JLabel("M\u00F3dulo 3");
+        lblNewLabel_4.setBounds(75, 20, 150, 30);
         lblNewLabel_2_1 = new JLabel("Retiros y consignaciones");
+        lblNewLabel_2_1.setBounds(75, 60, 150, 20);
 
         txtTurnoActualModulo3 = new JTextField();
+        txtTurnoActualModulo3.setBounds(75, 95, 150, 20);
         panelGenerarTurno = new JPanel();
+        panelGenerarTurno.setLayout(null);
+        panelGenerarTurno.setBounds(0, 300, 332, 300);
         lblNewLabel_5 = new JLabel("Generar turno");
         lblNewLabel_6 = new JLabel("Ingrese c\u00E9dula");
 
@@ -107,16 +135,22 @@ public class FramePrincipal extends JFrame implements Actioner{
         cmbTramite.setModel(new DefaultComboBoxModel(Module.values()));
 
         lblNewLabel = new JLabel("M\u00F3dulo 1");
+        lblNewLabel.setBounds(75, 20, 150, 30);
 
         lblNewLabel_2 = new JLabel("Cr\u00E9ditos y pr\u00E9stamos");
+        lblNewLabel_2.setBounds(75, 60, 150, 20);
 
         txtTurnoActualModulo1 = new JTextField();
+        txtTurnoActualModulo1.setBounds(75, 95, 150, 20);
 
         lblNewLabel_1 = new JLabel("M\u00F3dulo 2");
+        lblNewLabel_1.setBounds(75, 20, 150, 30);
 
         lblNewLabel_3 = new JLabel("Asesor\u00EDas");
+        lblNewLabel_3.setBounds(115, 60, 150, 20);
 
         txtTurnoActualModulo2 = new JTextField();
+        txtTurnoActualModulo2.setBounds(75, 95, 150, 20);
 
         lblNewLabel_4_1 = new JLabel("Simulaci\u00F3n turnos en un banco");
 
@@ -125,12 +159,35 @@ public class FramePrincipal extends JFrame implements Actioner{
 
         runnableUpdateTurnos = new RunnableUpdateTurnos(this);
         threadTurnos = new Thread(runnableUpdateTurnos);
-
+        
+        taDataModule1 = new JTextArea();
+        taDataModule1.setBounds(15, 125, 271, 50);
+        
+        taQueueModule1 = new JTextArea();
+        spModule1 = new JScrollPane(taQueueModule1);
+        spModule1.setViewportView(taQueueModule1);
+        spModule1.setBounds(15, 185, 271, 95);
+        
+        taDataModule2 = new JTextArea();
+        taDataModule2.setBounds(15, 125, 271, 50);
+        
+        taQueueModule2 = new JTextArea();
+        spModule2 = new JScrollPane(taQueueModule2);
+        spModule2.setViewportView(taQueueModule2);
+        spModule2.setBounds(15, 185, 271, 95);
+        
+        taDataModule3 = new JTextArea();
+        taDataModule3.setBounds(15, 125, 271, 50);
+        
+        taQueueModule3 = new JTextArea();
+        spModule3 = new JScrollPane(taQueueModule3);
+        spModule3.setViewportView(taQueueModule3);
+        spModule3.setBounds(15, 185, 271, 95);
 
     }
 
     public void agregar() {
-        contentPane.add(panelModulo3_GenerarTurno, BorderLayout.EAST);
+        contentPane.add(panelModulo3_GenerarTurno);
         panelModulo3_GenerarTurno.add(panelRetiros, "cell 0 0,grow");
 
         panelRetiros.add(lblNewLabel_4);
@@ -147,7 +204,7 @@ public class FramePrincipal extends JFrame implements Actioner{
         panelGenerarTurno.add(lblNewLabel_8);
         panelGenerarTurno.add(cmbTramite);
 
-        contentPane.add(panelModulo1_2, BorderLayout.WEST);
+        contentPane.add(panelModulo1_2);
         panelModulo1_2.add(panelPrestamos, "cell 0 0,grow");
 
         panelPrestamos.add(lblNewLabel);
@@ -161,17 +218,25 @@ public class FramePrincipal extends JFrame implements Actioner{
         panelAsesorias.add(lblNewLabel_3);
         panelAsesorias.add(txtTurnoActualModulo2);
 
-        contentPane.add(panelnformacion, BorderLayout.NORTH);
-
+        contentPane.add(panelnformacion);
+        
         panelnformacion.add(lblNewLabel_4_1);
-        contentPane.add(panelPerson, BorderLayout.CENTER);
+        contentPane.add(panelPerson);
+        
+        panelPrestamos.add(taDataModule1);
+        panelPrestamos.add(spModule1);
+        
+        panelAsesorias.add(taDataModule2);
+        panelAsesorias.add(spModule2);
+        
+        panelRetiros.add(taDataModule3);
+        panelRetiros.add(spModule3);
 
     }
     
     public void estilos() {
 
         panelModulo3_GenerarTurno.setBackground(Color.DARK_GRAY);
-        panelModulo3_GenerarTurno.setLayout(new MigLayout("", "[56px,grow]", "[24px,grow][grow]"));
 
         panelRetiros.setBackground(new Color(217, 108, 137));
         lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 35));
@@ -213,7 +278,6 @@ public class FramePrincipal extends JFrame implements Actioner{
         cmbTramite.setBounds(140, 101, 140, 22);
 
         panelModulo1_2.setBackground(Color.DARK_GRAY);
-        panelModulo1_2.setLayout(new MigLayout("", "[89px,grow]", "[23px,grow][][][][grow]"));
 
         panelPrestamos.setBackground(new Color(179,204,87));
 
@@ -334,23 +398,64 @@ public class FramePrincipal extends JFrame implements Actioner{
     }
 
     public void updateFrame(){
-
-        if (turnWithPeople.get(0).getTurno() != ""){
-            txtTurnoActualModulo1.setText("El turno actual es: " + turnWithPeople.get(0).getTurno());
+    	PersonView personView;
+    	PersonView personInTurn;
+        if (turnWithPeople.get(0).existPerson()){
+        	personInTurn = turnWithPeople.get(0).getPerson();
+            txtTurnoActualModulo1.setText("El turno actual es: G" + personInTurn.getTurn());
+            taDataModule1.setText("Nombre:"+personInTurn.getName()+"\nCedula:"+personInTurn.getId()+"\nFecha de nacimiento:"+personInTurn.getDate());
+            if (turnWithPeople.get(0).getPersonViews().size()>0) {
+            	taQueueModule1.setText("");
+            	for (int i=0; i<turnWithPeople.get(0).getPersonViews().size(); i++) {
+                	personView =turnWithPeople.get(0).getPersonViews().get(i);
+                	taQueueModule1.append(personView.getName()+"  "+personView.getId()+"   "+personView.getDate()+"   A"+personView.getTurn()+"\n");
+        		}
+			}else {
+				taQueueModule1.setText("");
+			}
         }else {
             txtTurnoActualModulo1.setText("MODULO LIBRE");
+            taDataModule1.setText("Nombre:\nCedula:\nFecha de nacimiento:");
         }
 
-        if (turnWithPeople.get(1).getTurno() != ""){
-            txtTurnoActualModulo2.setText("El turno actual es: " + turnWithPeople.get(1).getTurno());
+        if (turnWithPeople.get(1).existPerson()){
+        	personInTurn = turnWithPeople.get(1).getPerson();
+            txtTurnoActualModulo2.setText("El turno actual es: A" + personInTurn.getTurn());
+            taDataModule2.setText("Nombre:"+personInTurn.getName()+"\nCedula:"+personInTurn.getId()+"\nFecha de nacimiento:"+personInTurn.getDate());
+            if (turnWithPeople.get(1).getPersonViews().size()>0) {
+            	taQueueModule2.setText("");
+            	for (int i=0; i<turnWithPeople.get(1).getPersonViews().size(); i++) {
+                	personView =turnWithPeople.get(1).getPersonViews().get(i);
+                	taQueueModule2.append(personView.getName()+"  "+personView.getId()+"   "+personView.getDate()+"   A"+personView.getTurn()+"\n");
+        		}
+			}else {
+				taQueueModule2.setText("");
+			}
         }else{
-            txtTurnoActualModulo2.setText("MODULO LIBRE"); }
+            txtTurnoActualModulo2.setText("MODULO LIBRE"); 
+            taDataModule2.setText("Nombre:\nCedula:\nFecha de nacimiento:");
+        }
 
-        if (turnWithPeople.get(2).getTurno() != ""){
-            txtTurnoActualModulo3.setText("El turno actual es: " + turnWithPeople.get(2).getTurno());
+        if (turnWithPeople.get(2).existPerson()){
+        	personInTurn = turnWithPeople.get(2).getPerson();
+            txtTurnoActualModulo3.setText("El turno actual es: " + personInTurn.getTurn());
+            taDataModule3.setText("Nombre:"+personInTurn.getName()+"\nCedula:"+personInTurn.getId()+"\nFecha de nacimiento:"+personInTurn.getDate()+"\n");
+            if (turnWithPeople.get(2).getPersonViews().size()>0) {
+            	taQueueModule3.setText("");
+            	for (int i=0; i<turnWithPeople.get(2).getPersonViews().size(); i++) {
+                	personView =turnWithPeople.get(2).getPersonViews().get(i);
+                	taQueueModule3.append(personView.getName()+"  "+personView.getId()+"  "+personView.getDate()+"   "+personView.getTurn()+"\n");
+        		}
+			}else {
+				taQueueModule3.setText("");
+			}
         }else {
             txtTurnoActualModulo3.setText("MODULO LIBRE");
+            taDataModule3.setText("Nombre:\nCedula:\nFecha de nacimiento:");
         }
+        
+        taQueueModule1.setText("");
+        
 
 
         repaint();

@@ -59,6 +59,10 @@ public class Management {
     public void deletePerson(Person person) {
         personList.remove(person);
     }
+    public void deleteFromQueue(Person person) {
+//    	System.out.println("¡¡¡¡DELETE!!!!!");
+        queueList.get(2).remove(person);
+    }
 
     public void addpasserby(Passerby passerby) {
         passerbyList.add(passerby);
@@ -160,7 +164,6 @@ public class Management {
     }
 
     public boolean waitBeingServed(Person person) {
-        personList.add(person);
         if(person.getModule()==Module.Retiros && proceedingsList.get(2).getPerson()==null) {
             return true;
         }
@@ -170,7 +173,6 @@ public class Management {
     public String addPersonManually(String id, String module){
 
         int pick = new Random().nextInt(Name.values().length);
-        System.out.println("El modulo que eligio es: "+ module);
         Date dateA = new Date();
         int yearF = (int)(Math.random()*(2000-1940+1)+1940);
         String yearS = Integer.toString(yearF);
@@ -178,24 +180,23 @@ public class Management {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try {
             dateA = simpleDateFormat.parse(fecha);
-
-
-            if (module.equals("Prestamos")){
-                Person person = new Person(id, Name.values()[pick], new Color(255,255,255), Module.valueOf(module), dateA ,false, this);
-
-                personList.add(person);
-                return "SeÃ±or: " + id + " Turno Asignado Correctamente" + "\n" + "Verifique su turno en el modulo " + module + "\n" + "TURNO " + (gTurn+1);
-            }else if (module.equals("Asesorias")){
-                Person person = new Person(id, Name.values()[pick], new Color(255,0,0), Module.valueOf(module), dateA ,false, this);
-
-                personList.add(person);
-                return "SeÃ±or: " + id + " Turno Asignado Correctamente" + "\n" + "Verifique su turno en el modulo " + module + "\n" + "TURNO " + (aTurn+1);
-            }else if (module.equals("Retiros")){
-                Person person = new Person(id, Name.values()[pick], new Color(255,128,0), Module.valueOf(module), dateA ,false, this);
-
-                personList.add(person);
-                return "SeÃ±or: " + id + " Turno Asignado Correctamente" + "\n" + "Verifique su turno en el modulo " + module + "\n" + "TURNO " + (cTurn+1);
+            int turn = 0;
+            for(int i=0; i<personList.size(); i++) {
+            	if (personList.get(i).getModule().toString().equals(module)) {
+					turn++;
+				}
             }
+
+            Person person = null;
+            if (module.equals("Prestamos")){
+                person = new Person(id, Name.values()[pick], new Color(255,255,255), Module.valueOf(module), dateA ,false, this);
+            }else if (module.equals("Asesorias")){
+                person = new Person(id, Name.values()[pick], new Color(255,0,0), Module.valueOf(module), dateA ,false, this);
+            }else if (module.equals("Retiros")){
+                person = new Person(id, Name.values()[pick], new Color(255,128,0), Module.valueOf(module), dateA ,false, this);
+            }
+            personList.add(person);
+            return "Señor(a): " + Name.values()[pick] + " Turno Asignado Correctamente" + "\n" + "Verifique su turno en el modulo " + module + "\n" + "TURNO " + (turn+1);
 
         } catch (Exception e) {
             e.printStackTrace();

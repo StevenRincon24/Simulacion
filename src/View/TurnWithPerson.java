@@ -4,19 +4,24 @@ import java.util.ArrayList;
 
 public class TurnWithPerson {
 
-    private String turno;
+    private PersonView person;
     private ArrayList<PersonView> personViews;
 
-    public TurnWithPerson(String turno, ArrayList<PersonView> personViews) {
-        this.turno = turno;
+    public TurnWithPerson(PersonView person, ArrayList<PersonView> personViews) {
+        this.person = person;
         this.personViews = personViews;
     }
 
-    public String getTurno() {
-        return turno;
+    public PersonView getPerson() {
+        return person;
+    }
+    
+    public boolean existPerson() {
+    	return person!=null ? true: false;
     }
 
     public ArrayList<PersonView> getPersonViews() {
         return personViews;
     }
+    
 }

@@ -10,6 +10,8 @@ public class PersonView{
     private int y;
     private String name;
     private String id;
+    private String date;
+    private String turn;
 
     public PersonView(Color color, int x, int y) {
         this.color = color;
@@ -17,12 +19,36 @@ public class PersonView{
         this.y = y;
     }
 
-    public PersonView(String name, String id) {
+    public PersonView(String name, String id, String turn) {
         this.name = name;
         this.id = id;
+        this.turn = turn;
+    }
+    
+    public PersonView(String name, String id, String date, String turn) {
+        this.name = name;
+        this.id = id;
+        this.date = date;
+        this.turn = turn;
     }
 
-    public Color getColor() {
+    public String getName() {
+		return name;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public String getTurn() {
+		return turn;
+	}
+
+	public Color getColor() {
         return color;
     }
 

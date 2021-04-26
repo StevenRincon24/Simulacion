@@ -1,9 +1,7 @@
 package Model;
 
 import java.awt.Color;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Person {
@@ -48,8 +46,9 @@ public class Person {
         return comingFromRightSide;
     }
 
-    public Date getDate() {
-        return date;
+    public String getDate() {
+    	SimpleDateFormat sdfFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return sdfFormat.format(date);
     }
 
     public Color getColor() {

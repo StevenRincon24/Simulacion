@@ -44,17 +44,17 @@ public class RunnablePasserbyMovement implements Runnable{
                 }
 
                 if (!passerby.isComingFromRightSide()) {
-                    passerby.setX(passerby.getX()+1);
+                    passerby.setX(passerby.getX()+5);
                 }else {
-                    passerby.setX(passerby.getX()-1);
+                    passerby.setX(passerby.getX()-5);
                 }
 
                 if (down) {
-                    passerby.setY(passerby.getY()+1);
+                    passerby.setY(passerby.getY()+5);
                 }else {
-                    passerby.setY(passerby.getY()-1);
+                    passerby.setY(passerby.getY()-5);
                 }
-                Thread.sleep(15);
+                Thread.sleep(75);
             } catch (Exception e) {}
         }
     }
@@ -62,8 +62,8 @@ public class RunnablePasserbyMovement implements Runnable{
     private void left(int limit) {
         while (passerby.getX()>limit) {
             try {
-                passerby.setX(passerby.getX()-1);
-                Thread.sleep(15);
+                passerby.setX(passerby.getX()-5);
+                Thread.sleep(75);
             } catch (Exception e) {}
         }
     }
@@ -72,8 +72,8 @@ public class RunnablePasserbyMovement implements Runnable{
 
         while (passerby.getX()<limit) {
             try {
-                passerby.setX(passerby.getX()+1);
-                Thread.sleep(15);
+                passerby.setX(passerby.getX()+5);
+                Thread.sleep(75);
             } catch (Exception e) {}
         }
     }

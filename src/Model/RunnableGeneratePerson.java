@@ -23,9 +23,11 @@ public class RunnableGeneratePerson implements Runnable{
         int moduleIndex;
         Calendar calendar = new GregorianCalendar();
         Date date;
+        long begin = System.currentTimeMillis();
+        
         while (true) {
             try {
-                if (management.getPersonList().size()<28) {
+                if (management.getPersonList().size()<28 && System.currentTimeMillis()<(begin+60000)) {
                     id = (int)(Math.random()*(999999999+1)+1000000000);
                     color = new Color((int)(Math.random()*(256)),(int)(Math.random()*(256)),(int)(Math.random()*(256)));
                     nameIndex = (int)(Math.random()*(Name.values().length));

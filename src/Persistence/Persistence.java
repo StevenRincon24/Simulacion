@@ -7,7 +7,7 @@ import Model.Proceeding;
 import View.PersonView;
 import View.TurnWithPerson;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -42,11 +42,14 @@ public class Persistence {
                 BufferedWriter bwWrite = new BufferedWriter(fwFileWriter);
 
                 if (proceedingsList.get(i).getPerson()!=null) {
-                    bwWrite.write(proceedingsList.get(i).getPerson().getTurn()+";"+queueList.get(i).size()+"\n");
+                	Person person = proceedingsList.get(i).getPerson();
+                    bwWrite.write(person.getPersonName()+";"+person.getPersonID()+";"+person.getDate()+";"+person.getTurn()+"\n");
                     if (queueList.get(i).size()>0) {
                         for (int j = 0; j<queueList.get(i).size(); j++) {
                             bwWrite.write(queueList.get(i).get(j).getPersonName()+";");
-                            bwWrite.write(queueList.get(i).get(j).getPersonID()+"\n");
+                            bwWrite.write(queueList.get(i).get(j).getPersonID()+";");
+                            bwWrite.write(queueList.get(i).get(j).getDate()+";");
+                            bwWrite.write(queueList.get(i).get(j).getTurn()+"\n");
                         }
                     }
                 }
@@ -74,20 +77,20 @@ public class Persistence {
                 File file = new File(path+"/turnList"+i+".txt");
                 Scanner sc = new Scanner(file);
 
-                String turn = "";
+                PersonView personInTurn = null;
                 while (sc.hasNextLine()) {
                     String line = sc.nextLine();
                     Scanner delimiting = new Scanner(line);
                     delimiting.useDelimiter("\\s*;\\s*");
 
-                    if (turn.equals("")) {
-                        turn = delimiting.next();
+                    if (personInTurn==null) {
+                    	personInTurn = new PersonView(delimiting.next(), delimiting.next(), delimiting.next(), delimiting.next());
                     }else {
-                        PersonView person = new PersonView(delimiting.next(), delimiting.next());
+                        PersonView person = new PersonView(delimiting.next(), delimiting.next(), delimiting.next(), delimiting.next());
                         personList.add(person);
                     }
                 }
-                turnWithPersonList.add(new TurnWithPerson(turn, personList));
+                turnWithPersonList.add(new TurnWithPerson(personInTurn, personList));
             }
         } catch (Exception e) {
             System.out.println("ERROR EN downloadTurn " + e );

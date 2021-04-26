@@ -41,24 +41,14 @@ public class RunnablePersonMovement implements Runnable{
             goToModule();
             management.goToModule(person);
             waitBeingServed();
-            if (person.getModule()!=Module.Retiros) {
-                right(190);
-                down(395);
-                right(260);
-            }else {
-                left(480);
-                down(395);
-                left(260);
-            }
-
-            down((int)(Math.random()*(575+1-475)+475));
-            if (person.isComingFromRightSide()) {
-                left(-30);
-            }else {
-                right(780);
-            }
+            goodBay();
             management.deletePerson(person);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        	management.deleteFromQueue(person);
+//        	System.out.println("Destrabado");
+        	goodBay();
+        	management.deletePerson(person);
+        }
     }
 
     public void crazyMode() {
@@ -91,7 +81,7 @@ public class RunnablePersonMovement implements Runnable{
                 }else {
                     person.setY(person.getY()-1);
                 }
-                Thread.sleep(15);
+                Thread.sleep(75);
             } catch (Exception e) {}
         }
     }
@@ -99,8 +89,8 @@ public class RunnablePersonMovement implements Runnable{
     private void left(int limit) {
         while (person.getX()>limit) {
             try {
-                person.setX(person.getX()-1);
-                Thread.sleep(15);
+                person.setX(person.getX()-5);
+                Thread.sleep(75);
             } catch (Exception e) {}
         }
     }
@@ -108,8 +98,8 @@ public class RunnablePersonMovement implements Runnable{
     private void right(int limit) {
         while (person.getX()<limit) {
             try {
-                person.setX(person.getX()+1);
-                Thread.sleep(15);
+                person.setX(person.getX()+5);
+                Thread.sleep(75);
             } catch (Exception e) {}
         }
     }
@@ -117,8 +107,8 @@ public class RunnablePersonMovement implements Runnable{
     private void up(int limit) {
         while (person.getY()>limit) {
             try {
-                person.setY(person.getY()-1);
-                Thread.sleep(15);
+                person.setY(person.getY()-5);
+                Thread.sleep(75);
             } catch (Exception e) {}
         }
     }
@@ -126,8 +116,8 @@ public class RunnablePersonMovement implements Runnable{
     private void down(int limit) {
         while (person.getY()<limit) {
             try {
-                person.setY(person.getY()+1);
-                Thread.sleep(15);
+                person.setY(person.getY()+5);
+                Thread.sleep(75);
             } catch (Exception e) {}
         }
     }
@@ -135,7 +125,7 @@ public class RunnablePersonMovement implements Runnable{
     private void waiting() {
         while(management.waiting(person)) {
             try {
-                Thread.sleep(10);
+                Thread.sleep(100);
             } catch (Exception e) {}
         }
     }
@@ -176,9 +166,9 @@ public class RunnablePersonMovement implements Runnable{
                 if (person.getQueuePosition()>=1 && person.getQueuePosition()<=4) {
                     up(person.getY()-35);
                 }else if (person.getQueuePosition()>=5 && person.getQueuePosition()<=8) {
-                    down(person.getY()+30);
+                    down(person.getY()+28);
                 }else if (person.getQueuePosition()>=9 && person.getQueuePosition()<=12) {
-                    up(person.getY()-38);
+                    up(person.getY()-35);
                 }
                 if (person.getQueuePosition()==5 || person.getQueuePosition()==9) {
                     left(person.getX()-40);
@@ -193,15 +183,35 @@ public class RunnablePersonMovement implements Runnable{
         if (person.getModule()!=Module.Retiros) {
             while(!management.isAModuleFree(person)) {
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(100);
                 } catch (Exception e) {}
             }
         }else {
             while(!management.waitBeingServed(person)) {
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(100);
                 } catch (Exception e) {}
             }
+        }
+    }
+    
+    private void goodBay() {
+    	
+    	if (person.getModule()!=Module.Retiros) {
+            right(190);
+            down(395);
+            right(260);
+        }else {
+            left(480);
+            down(395);
+            left(260);
+        }
+
+        down((int)(Math.random()*(575+1-475)+475));
+        if (person.isComingFromRightSide()) {
+            left(-30);
+        }else {
+            right(780);
         }
     }
 }
