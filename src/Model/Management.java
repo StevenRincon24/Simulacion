@@ -180,12 +180,6 @@ public class Management {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try {
             dateA = simpleDateFormat.parse(fecha);
-            int turn = 0;
-            for(int i=0; i<personList.size(); i++) {
-            	if (personList.get(i).getModule().toString().equals(module)) {
-					turn++;
-				}
-            }
 
             Person person = null;
             if (module.equals("Prestamos")){
@@ -196,7 +190,7 @@ public class Management {
                 person = new Person(id, Name.values()[pick], new Color(255,128,0), Module.valueOf(module), dateA ,false, this);
             }
             personList.add(person);
-            return "Señor(a): " + Name.values()[pick] + " Turno Asignado Correctamente" + "\n" + "Verifique su turno en el modulo " + module + "\n" + "TURNO " + (turn+1);
+            return "Señor(a): " + Name.values()[pick] + " Turno Asignado Correctamente" + "\n" + "Verifique su turno en el modulo " + module + "\n";
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -216,7 +210,7 @@ public class Management {
         String msj = "";
         msj += "Personas Atentidas en el modulo 1 --- " + gTurn + "\n";
         for (int i = 0; i < personListModulOne.size(); i++){
-            msj += "Nombre: " + personListModulOne.get(i).getPersonName() + "\n" ;
+            msj += "Nombre: " + personListModulOne.get(i).getPersonName()+"  Cedula: " + personListModulThree.get(i).getPersonID()+ "\n" ;
 
         }
         return msj;
@@ -227,7 +221,7 @@ public class Management {
         String msj = "";
         msj += "Personas Atentidas en el modulo 2 --- " + aTurn + "\n";
         for (int i = 0; i < personListModulTwo.size(); i++){
-            msj += "Nombre: " + personListModulTwo.get(i).getPersonName() + "\n" ;
+            msj += "Nombre: " + personListModulTwo.get(i).getPersonName()+"  Cedula: " + personListModulTwo.get(i).getPersonID()+ "\n" ;
 
         }
         return msj;
@@ -238,7 +232,7 @@ public class Management {
         String msj = "";
         msj += "Personas Atentidas en el modulo 3 --- " + cTurn + "\n";
         for (int i = 0; i < personListModulThree.size(); i++){
-            msj += "Nombre: " + personListModulThree.get(i).getPersonName() + "\n" ;
+            msj += "Nombre: " + personListModulThree.get(i).getPersonName()+"  Cedula: " + personListModulThree.get(i).getPersonID()+ "\n" ;
 
         }
         return msj;

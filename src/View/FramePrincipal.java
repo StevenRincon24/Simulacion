@@ -161,25 +161,31 @@ public class FramePrincipal extends JFrame implements Actioner{
         threadTurnos = new Thread(runnableUpdateTurnos);
         
         taDataModule1 = new JTextArea();
+        taDataModule1.setEditable(false);
         taDataModule1.setBounds(15, 125, 271, 50);
         
         taQueueModule1 = new JTextArea();
+        taQueueModule1.setEditable(false);
         spModule1 = new JScrollPane(taQueueModule1);
         spModule1.setViewportView(taQueueModule1);
         spModule1.setBounds(15, 185, 271, 95);
         
         taDataModule2 = new JTextArea();
+        taDataModule2.setEditable(false);
         taDataModule2.setBounds(15, 125, 271, 50);
         
         taQueueModule2 = new JTextArea();
+        taQueueModule2.setEditable(false);
         spModule2 = new JScrollPane(taQueueModule2);
         spModule2.setViewportView(taQueueModule2);
         spModule2.setBounds(15, 185, 271, 95);
         
         taDataModule3 = new JTextArea();
+        taDataModule3.setEditable(false);
         taDataModule3.setBounds(15, 125, 271, 50);
         
         taQueueModule3 = new JTextArea();
+        taQueueModule3.setEditable(false);
         spModule3 = new JScrollPane(taQueueModule3);
         spModule3.setViewportView(taQueueModule3);
         spModule3.setBounds(15, 185, 271, 95);
@@ -454,9 +460,6 @@ public class FramePrincipal extends JFrame implements Actioner{
             taDataModule3.setText("Nombre:\nCedula:\nFecha de nacimiento:");
         }
         
-        taQueueModule1.setText("");
-        
-
 
         repaint();
 
