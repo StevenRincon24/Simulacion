@@ -162,19 +162,24 @@ public class RunnablePersonMovement implements Runnable{
     }
     private void queue() {
         while (person.getQueuePosition()!=0) {//person.getY()!=200 && (person.getX()!=637 || person.getX()!=517)
-            if (management.getQueuePosition(person)<person.getQueuePosition() || person.getQueuePosition()==1) {
-                if (person.getQueuePosition()>=1 && person.getQueuePosition()<=4) {
-                    up(person.getY()-35);
-                }else if (person.getQueuePosition()>=5 && person.getQueuePosition()<=8) {
-                    down(person.getY()+28);
-                }else if (person.getQueuePosition()>=9 && person.getQueuePosition()<=12) {
-                    up(person.getY()-35);
+            try {
+            	if (management.getQueuePosition(person)<person.getQueuePosition() || person.getQueuePosition()==1) {
+                    if (person.getQueuePosition()>=1 && person.getQueuePosition()<=4) {
+                        up(person.getY()-35);
+                    }else if (person.getQueuePosition()>=5 && person.getQueuePosition()<=8) {
+                        down(person.getY()+28);
+                    }else if (person.getQueuePosition()>=9 && person.getQueuePosition()<=12) {
+                        up(person.getY()-35);
+                    }
+                    if (person.getQueuePosition()==5 || person.getQueuePosition()==9) {
+                        left(person.getX()-40);
+                    }
+                    person.setQueuePosition(person.getQueuePosition()-1);
+                }else {
+                	Thread.sleep(100);
                 }
-                if (person.getQueuePosition()==5 || person.getQueuePosition()==9) {
-                    left(person.getX()-40);
-                }
-                person.setQueuePosition(person.getQueuePosition()-1);
-            }
+            	
+			} catch (Exception e) {}
         }
         waiting();
     }

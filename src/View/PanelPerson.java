@@ -38,7 +38,7 @@ public class PanelPerson extends JPanel{
            //decoracion
            auxGraph.setColor(new Color(59, 131, 189));
            auxGraph.drawRect(510, 20, 165, 76);
-           auxGraph.drawString("Bobeda", 560, 70);
+           auxGraph.drawString("Boveda", 560, 70);
            auxGraph.setColor(new Color(194, 155, 97));
            auxGraph.drawLine(230, 470, 230, 450);
            auxGraph.drawLine(400, 470, 400, 450);

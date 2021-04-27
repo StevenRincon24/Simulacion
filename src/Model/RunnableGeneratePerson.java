@@ -25,9 +25,9 @@ public class RunnableGeneratePerson implements Runnable{
         Date date;
         long begin = System.currentTimeMillis();
         
-        while (true) {
+        while (System.currentTimeMillis()<(begin+60000)) {
             try {
-                if (management.getPersonList().size()<28 && System.currentTimeMillis()<(begin+60000)) {
+                if (management.getPersonList().size()<18) {
                     id = (int)(Math.random()*(999999999+1)+1000000000);
                     color = new Color((int)(Math.random()*(256)),(int)(Math.random()*(256)),(int)(Math.random()*(256)));
                     nameIndex = (int)(Math.random()*(Name.values().length));
@@ -65,7 +65,7 @@ public class RunnableGeneratePerson implements Runnable{
             return true;
         }else if(module==Module.Asesorias && countModule2<6) {
             return true;
-        }else if(module==Module.Retiros && countModule3<12) {
+        }else if(module==Module.Retiros && countModule3<6) {
             return true;
         }
 

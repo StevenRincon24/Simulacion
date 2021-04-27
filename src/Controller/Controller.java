@@ -7,7 +7,6 @@ import View.PersonView;
 import View.TurnWithPerson;
 import View.WindowStadistics;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -24,7 +23,8 @@ public class Controller implements ActionListener {
         management = new Management();
         persistence = new Persistence();
 
-
+        windowStadistics = new WindowStadistics();
+        
         this.actioner = actioner;
         persistence.createFiles();
     }
@@ -65,20 +65,17 @@ public class Controller implements ActionListener {
 
             case Actioner.ESTADISTICASVENTANA:
 
-                windowStadistics = new WindowStadistics();
                 windowStadistics.setVisible(true);
-
-                windowStadistics.getAreaModulOne().setText(management.personasModuloUno());
-                windowStadistics.getAreaModulTwo().setText(management.personasModuloTwo());
-                windowStadistics.getAreaModulThree().setText(management.personasModuloThree());
-
-
-
+            	
                 break;
         }
 
-
-
-
+    }
+    
+    public void repaint() {
+    	windowStadistics.getAreaModulOne().setText(management.personasModuloUno());
+        windowStadistics.getAreaModulTwo().setText(management.personasModuloTwo());
+        windowStadistics.getAreaModulThree().setText(management.personasModuloThree());
+    	windowStadistics.repaint();
     }
 }

@@ -22,6 +22,7 @@ public class RunnableUpdateTurnos implements Runnable{
             try {
                 controller.setPersistenceTurno();
                 framePrincipal.setTurnWithPeople(controller.getPersistenceTurno());
+                controller.repaint();
                 if (framePrincipal.getTurnWithPeople().size() > 0){
                     framePrincipal.updateFrame();
                     Thread.sleep(100);

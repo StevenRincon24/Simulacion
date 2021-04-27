@@ -21,21 +21,23 @@ public class RunnableModule implements Runnable{
     @Override
     public void run() {
         while (true) {
-            while(timeWorked<=timeExpected && proceeding.getPerson()!=null) {
-                try {
-                    timeWorked += 100;
-                    Thread.sleep(100);
-                } catch (Exception e) {}
-            }
-            management.nextPerson(proceeding);
-            timeWorked = 0;
-            while(breakTime<=2000 && proceeding.getPerson()==null) {
-                try {
-                    breakTime  += 100;
-                    Thread.sleep(100);
-                } catch (Exception e) {}
-            }
-            breakTime = 0;
+            try {
+            	while(timeWorked<=timeExpected && proceeding.getPerson()!=null) {
+                    try {
+                        timeWorked += 100;
+                        Thread.sleep(100);
+                    } catch (Exception e) {}
+                }
+                management.nextPerson(proceeding);
+                timeWorked = 0;
+                while(breakTime<=2000 && proceeding.getPerson()==null) {
+                    try {
+                        breakTime  += 100;
+                        Thread.sleep(100);
+                    } catch (Exception e) {}
+                }
+                breakTime = 0;
+			} catch (Exception e) {}
         }
     }
 

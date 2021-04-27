@@ -382,6 +382,7 @@ public class FramePrincipal extends JFrame implements Actioner{
                     getTxtCedulaGenerarTurno().getText(),
                     "" + getCmbTramite().getSelectedItem()
             };
+            getTxtCedulaGenerarTurno().setText("");
             return data;
         }
 

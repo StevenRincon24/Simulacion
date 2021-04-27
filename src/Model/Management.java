@@ -11,9 +11,9 @@ import java.util.Random;
 public class Management {
 
 
-    private ArrayList<Person> personListModulOne;
-    private ArrayList<Person> personListModulTwo;
-    private ArrayList<Person> personListModulThree;
+    private ArrayList<String> personListModulOne;
+    private ArrayList<String> personListModulTwo;
+    private ArrayList<String> personListModulThree;
 
     private ArrayList<Proceeding> proceedingsList;
     private ArrayList<LinkedList<Person>> queueList;
@@ -82,19 +82,16 @@ public class Management {
 
     public void setTurn(Person person) {
         if (person.getModule()==Module.Prestamos) {
-            personListModulOne.add(person);
             gTurn++;
             person.setTurn(gTurn);
             queueList.get(0).add(person);
 
         }else if (person.getModule()==Module.Asesorias) {
-            personListModulTwo.add(person);
             aTurn++;
             person.setTurn(aTurn);
             queueList.get(1).add(person);
 
         }else if (person.getModule()==Module.Retiros){
-            personListModulThree.add(person);
             cTurn++;
             person.setTurn(cTurn);
             queueList.get(2).add(person);
@@ -155,11 +152,17 @@ public class Management {
 
     public void goToModule(Person person) {
         if (person.getModule()==Module.Prestamos) {
+        	personListModulOne.add("Nombre: " + person.getPersonName()+"  Cedula: " + person.getPersonID()+ "\n");
             proceedingsList.get(0).setPerson(queueList.get(0).poll());
+            proceedingsList.get(0).setCount();
         }else if (person.getModule()==Module.Asesorias) {
+        	personListModulTwo.add("Nombre: " + person.getPersonName()+"  Cedula: " + person.getPersonID()+ "\n");
             proceedingsList.get(1).setPerson(queueList.get(1).poll());
+            proceedingsList.get(1).setCount();
         }else if (person.getModule()==Module.Retiros){
+        	personListModulThree.add("Nombre: " + person.getPersonName()+"  Cedula: " + person.getPersonID()+ "\n");
             proceedingsList.get(2).setPerson(queueList.get(2).poll());
+            proceedingsList.get(2).setCount();
         }
     }
 
@@ -190,7 +193,7 @@ public class Management {
                 person = new Person(id, Name.values()[pick], new Color(255,128,0), Module.valueOf(module), dateA ,false, this);
             }
             personList.add(person);
-            return "Señor(a): " + Name.values()[pick] + " Turno Asignado Correctamente" + "\n" + "Verifique su turno en el modulo " + module + "\n";
+            return "Señor(a): " + Name.values()[pick]+ " C.C: "+id + "    Turno Asignado Correctamente" + "\n" + "Verifique su turno en el modulo " + module + "\n";
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -208,33 +211,41 @@ public class Management {
 
     public String personasModuloUno(){
         String msj = "";
-        msj += "Personas Atentidas en el modulo 1 --- " + gTurn + "\n";
-        for (int i = 0; i < personListModulOne.size(); i++){
-            msj += "Nombre: " + personListModulOne.get(i).getPersonName()+"  Cedula: " + personListModulThree.get(i).getPersonID()+ "\n" ;
+        msj += "Personas Atentidas en el modulo 1 --- " + proceedingsList.get(0).getCount() + "\n";
+        
+        if (personListModulOne.size()>0) {
+        	for (int i = 0; i < personListModulOne.size(); i++){
+                msj += personListModulOne.get(i);
 
-        }
+            }
+		}
         return msj;
 
     }
 
     public String personasModuloTwo(){
         String msj = "";
-        msj += "Personas Atentidas en el modulo 2 --- " + aTurn + "\n";
-        for (int i = 0; i < personListModulTwo.size(); i++){
-            msj += "Nombre: " + personListModulTwo.get(i).getPersonName()+"  Cedula: " + personListModulTwo.get(i).getPersonID()+ "\n" ;
+        msj += "Personas Atentidas en el modulo 2 --- " + proceedingsList.get(1).getCount() + "\n";
+        
+        if (personListModulTwo.size()>0) {
+        	for (int i = 0; i < personListModulTwo.size(); i++){
+                msj += personListModulTwo.get(i);
 
-        }
+            }
+		}
         return msj;
 
     }
 
     public String personasModuloThree(){
         String msj = "";
-        msj += "Personas Atentidas en el modulo 3 --- " + cTurn + "\n";
-        for (int i = 0; i < personListModulThree.size(); i++){
-            msj += "Nombre: " + personListModulThree.get(i).getPersonName()+"  Cedula: " + personListModulThree.get(i).getPersonID()+ "\n" ;
+        msj += "Personas Atentidas en el modulo 3 --- " + proceedingsList.get(2).getCount() + "\n";
+        if (personListModulThree.size()>0) {
+        	for (int i = 0; i < personListModulThree.size(); i++){
+                msj += personListModulThree.get(i);
 
-        }
+            }
+		}
         return msj;
 
     }

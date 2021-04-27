@@ -13,7 +13,7 @@ public class RunnablePasserbyMovement implements Runnable{
     @Override
     public void run() {
         try {
-            passerby.setY((int)(Math.random()*(575+1-470)+470));
+            passerby.setY((int)(Math.random()*(570+1-470)+470));
             if (passerby.isComingFromRightSide()) {
                 passerby.setX(780);
             }else {
@@ -37,9 +37,9 @@ public class RunnablePasserbyMovement implements Runnable{
         while(passerby.getX()>=-30 && passerby.getX()<=730) {
             try {
 
-                if (passerby.getY()==470) {
+                if (passerby.getY()<470) {
                     down = true;
-                }else if (passerby.getY()==570) {
+                }else if (passerby.getY()>570) {
                     down = false;
                 }
 
